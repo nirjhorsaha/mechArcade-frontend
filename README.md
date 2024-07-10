@@ -41,7 +41,7 @@ Welcome to `MechArcade`, your premier destination for mechanical keyboards. Whet
 -   **Homepage**: A captivating entry point showcasing featured products and top brands.
 -   **Product Pages**: Detailed listings with comprehensive descriptions, customer reviews, and purchasing options.
 -   **Cart and Checkout**: A streamlined process for adding items to cart, managing quantities, and secure checkout with payment integration.
--   **Admin Dashboard**: Tools for product management, including inventory control, updates, and analytics.  
+-   **Admin Dashboard**: Tools for product management, including inventory control, updates, and analytics.
 -   **About Us and Contact Us**: Pages providing insights into our mission, team, and ways to connect.
 
 ### Purpose and Goals
