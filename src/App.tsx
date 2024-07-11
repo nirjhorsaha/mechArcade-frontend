@@ -1,12 +1,12 @@
 
 import './App.css'
-import { Button } from './components/ui/button'
+import MainLayout from './components/layout/MainLayout'
 
 function App() {
 
   return (
     <div>
-      <Button>shadcn button</Button>
+      <MainLayout/>
     </div>
   )
 }

@@ -1,0 +1,14 @@
+import { Helmet } from "react-helmet";
+
+const Products =() => {
+  return (
+    <div>
+      <Helmet>
+        <title>Product - Mech Arcade</title>
+      </Helmet>
+      <h1> This is, Products component! </h1>
+    </div>
+  );
+};
+
+export default Products;

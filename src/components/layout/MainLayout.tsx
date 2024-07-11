@@ -1,7 +1,13 @@
+import Footer from "@/pages/Shared/Footer";
+import NavBar from "@/pages/Shared/Navbar";
+import { Outlet } from "react-router-dom";
+
 const MainLayout = () => {
     return (
-        <div>
-            <h1>This is main layout</h1>
+        <div data-theme="light">
+            <NavBar/>
+            <Outlet />
+            <Footer/>
         </div>
     );
 };
