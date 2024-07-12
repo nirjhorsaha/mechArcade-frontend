@@ -3,6 +3,7 @@ import AboutUs from "@/pages/About-Us/AboutUs";
 import ContactUs from "@/pages/Contact-Us/ContactUs";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import Home from "@/pages/Home/Home";
+import ProductDetails from "@/pages/Product-Details/ProductDetails";
 import Products from "@/pages/Products/Products";
 import Notfound from "@/pages/Shared/Notfound";
 import { createBrowserRouter } from "react-router-dom";
@@ -18,6 +19,10 @@ const router = createBrowserRouter([{
     {
       path: "/products",
       element: <Products/>
+    },
+    {
+      path: "/products/:productId", // Dynamic route parameter for product ID
+      element: <ProductDetails />,
     },
     {
       path: "/about",
