@@ -1,21 +1,38 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 
+interface NavLinkProps {
+  to: string;
+  name: string;
+  activeTab: string;
+  handleTabClick: (tabName: string) => void;
+}
+
+const NavLink = ({ to, name, activeTab, handleTabClick }: NavLinkProps) => (
+  <li>
+    <Link
+      to={to}
+      onClick={() => handleTabClick(name)}
+      className={`nav-link ${activeTab === name ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
+    >
+      {name}
+    </Link>
+  </li>
+);
 
 const Navbar = () => {
-  const [activeTab, setActiveTab] = useState('Home'); // Initialize with the default active tab
+  const [activeTab, setActiveTab] = useState<string>('Home'); // Initialize with the default active tab
 
-  const handleTabClick = (tabName: any) => {
+  const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
 
   return (
-    <div className="navbar bg-base-100 ">
+    <div className="navbar bg-base-100 mb-5">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" aria-label="Toggle navigation">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -32,42 +49,12 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            <li><Link
-              to="/"
-              onClick={() => handleTabClick('Home')}
-              className={`nav-link ${activeTab === 'Home' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Home
-            </Link></li>
-            <li><Link
-              to="/products"
-              onClick={() => handleTabClick('Products')}
-              className={`nav-link ${activeTab === 'Products' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Products
-            </Link></li>
-            <li><Link
-              to="/about"
-              onClick={() => handleTabClick('About Us')}
-              className={`nav-link ${activeTab === 'About Us' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              About Us
-            </Link></li>
-            <li><Link
-              to="/contact"
-              onClick={() => handleTabClick('Contact Us')}
-              className={`nav-link ${activeTab === 'Contact Us' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Contact Us
-            </Link></li>
-            <li> <Link
-              to="/dashboard"
-              onClick={() => handleTabClick('Dashboard')}
-              className={`nav-link ${activeTab === 'Dashboard' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Dashboard
-            </Link></li>
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[2] mt-3 w-52 p-2 shadow">
+            <NavLink to="/" name="Home" activeTab={activeTab} handleTabClick={handleTabClick} />
+            <NavLink to="/products" name="Products" activeTab={activeTab} handleTabClick={handleTabClick} />
+            <NavLink to="/about" name="About Us" activeTab={activeTab} handleTabClick={handleTabClick} />
+            <NavLink to="/contact" name="Contact Us" activeTab={activeTab} handleTabClick={handleTabClick} />
+            <NavLink to="/dashboard" name="Dashboard" activeTab={activeTab} handleTabClick={handleTabClick} />
           </ul>
         </div>
 
@@ -76,62 +63,21 @@ const Navbar = () => {
             <img src={logo} alt="Logo" className="h-10 lg:h-16 p-1 lg:ml-2" />
           </Link>
         </div>
-
       </div>
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <Link
-              to="/"
-              onClick={() => handleTabClick('Home')}
-              className={`nav-link ${activeTab === 'Home' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/products"
-              onClick={() => handleTabClick('Products')}
-              className={`nav-link ${activeTab === 'Products' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Products
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/about"
-              onClick={() => handleTabClick('About Us')}
-              className={`nav-link ${activeTab === 'About Us' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              About Us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contact"
-              onClick={() => handleTabClick('Contact Us')}
-              className={`nav-link ${activeTab === 'Contact Us' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Contact Us
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard"
-              onClick={() => handleTabClick('Dashboard')}
-              className={`nav-link ${activeTab === 'Dashboard' ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Dashboard
-            </Link>
-          </li>
+          <NavLink to="/" name="Home" activeTab={activeTab} handleTabClick={handleTabClick} />
+          <NavLink to="/products" name="Products" activeTab={activeTab} handleTabClick={handleTabClick} />
+          <NavLink to="/about" name="About Us" activeTab={activeTab} handleTabClick={handleTabClick} />
+          <NavLink to="/contact" name="Contact Us" activeTab={activeTab} handleTabClick={handleTabClick} />
+          <NavLink to="/dashboard" name="Dashboard" activeTab={activeTab} handleTabClick={handleTabClick} />
         </ul>
       </div>
 
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
-
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle" aria-label="View cart">
             <div className="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -161,10 +107,10 @@ const Navbar = () => {
           </div>
         </div>
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" aria-label="User menu">
             <div className="w-10 rounded-full">
               <img
-                alt="Tailwind CSS Navbar component"
+                alt="User avatar"
                 src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
             </div>
           </div>
