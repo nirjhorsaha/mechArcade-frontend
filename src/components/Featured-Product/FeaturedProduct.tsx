@@ -5,6 +5,7 @@ import 'aos/dist/aos.css';
 import mKeyboard1 from '../../assets/keyboard-1.jpg';
 import mKeyboard2 from '../../assets/keyboard-2.jpg';
 import mKeyboard3 from '../../assets/keyboard-3.jpg';
+import { useEffect } from 'react';
 
 const FeaturedProduct = () => {
   useEffect(() => {
