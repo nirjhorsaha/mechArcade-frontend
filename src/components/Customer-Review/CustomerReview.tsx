@@ -1,7 +1,33 @@
-const CustomerReview =() => {
+import React, { useEffect } from 'react';
+import { Carousel, Rate } from 'antd';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import reviewsData from './reviews.json';
+
+const CustomerReview: React.FC = () => {
+  useEffect(() => {
+    AOS.init(); 
+  }, []);
+
   return (
-    <div>
-      <h1> This is, CustomerReview component! </h1>
+    <div className="p-6 mt-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl font-semibold text-blue-600 mb-6 text-center">Customer Reviews</h2>
+        <Carousel autoplay>
+          {reviewsData.map((review) => (
+            <div key={review.id} className="bg-gray-100 p-8 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <img src={review.image} alt={review.name} className="w-12 h-12 rounded-full mr-4" />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">{review.name}</h3>
+                  <Rate allowHalf defaultValue={review.rating} />
+                </div>
+              </div>
+              <p className="text-gray-600">{review.text}</p>
+            </div>
+          ))}
+        </Carousel>
+      </div>
     </div>
   );
 };
