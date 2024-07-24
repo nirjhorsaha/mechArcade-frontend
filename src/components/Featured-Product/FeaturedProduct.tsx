@@ -44,7 +44,7 @@ const FeaturedProduct = () => {
   ];
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md mt-10">
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md mt-10 max-w-7xl mx-auto">
       <h2 className="text-3xl font-semibold text-blue-600 mb-6 text-center">Featured Product</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
@@ -59,8 +59,8 @@ const FeaturedProduct = () => {
             <div className="p-4">
               <h3 className="text-xl font-bold text-blue-600">{product.title}</h3>
               <p className="text-sm text-gray-600">{product.brand}</p>
-              <p className="font-serif mt-2">Available Quantity: {product.quantity}</p>
-              <p className="font-serif">Price: ${product.price}</p>
+              <p className="font-mono mt-2">Available Quantity: {product.quantity}</p>
+              <p className="font-mono">Price: ${product.price}</p>
               <div className="flex items-center mt-2">
                 <span className="flex">
                   {[...Array(5)].map((_, index) => (

@@ -1,4 +1,5 @@
-import Additional from "@/components/Additinonal/Additional";
+import CustomizableOptions from "@/components/Additinonal/CustomizableOptions";
+import WhyChooseMechanicalKeyboards from "@/components/Additinonal/WhyChooseMechanicalKeyboards";
 import CustomerReview from "@/components/Customer-Review/CustomerReview";
 import FeaturedBrand from "@/components/Featured-Brand/FeaturedBrand";
 import FeaturedProduct from "@/components/Featured-Product/FeaturedProduct";
@@ -17,7 +18,8 @@ const Home = () => {
       <FeaturedProduct />
       <FeaturedBrand />
       <CustomerReview />
-      <Additional/>
+      <WhyChooseMechanicalKeyboards />
+      <CustomizableOptions/>
     </div>
   );
 };

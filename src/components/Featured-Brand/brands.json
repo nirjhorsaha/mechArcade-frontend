@@ -1,0 +1,23 @@
+[
+    {
+      "id": 1,
+      "name": "Corsair",
+      "logoUrl": "https://example.com/corsair-logo.png"
+    },
+    {
+      "id": 2,
+      "name": "Logitech",
+      "logoUrl": "https://example.com/logitech-logo.png"
+    },
+    {
+      "id": 3,
+      "name": "Razer",
+      "logoUrl": "https://example.com/razer-logo.png"
+    },
+    {
+      "id": 4,
+      "name": "SteelSeries",
+      "logoUrl": "https://example.com/steelseries-logo.png"
+    }
+  ]
+  

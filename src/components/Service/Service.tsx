@@ -20,7 +20,7 @@ const Service = () => {
   ];
   
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md mt-10 ">
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md mt-10 mx-auto max-w-7xl ">
       <h2 className="text-3xl font-semibold text-blue-600 mb-6 text-center">Discover Our Services</h2>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
         {services.map(service => (
