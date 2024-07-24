@@ -29,7 +29,7 @@ const WhyChooseMechanicalKeyboards: React.FC = () => {
         <h3 className="text-lg font-medium text-gray-600 mb-5">Discover the benefits of using mechanical keyboards</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="zoom-in">
+            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="fade-up" data-aos-delay="100">
               <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCollapse(0)}>
                 <h3 className="text-xl font-semibold text-gray-800">Durability and Longevity</h3>
                 {openIndex === 0 ? <FiChevronUp className="text-gray-600 h-6 w-6" /> : <FiChevronDown className="text-gray-600 h-6 w-6" />}
@@ -40,7 +40,7 @@ const WhyChooseMechanicalKeyboards: React.FC = () => {
                 </p>
               )}
             </div>
-            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="zoom-in">
+            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="fade-up" data-aos-delay="200">
               <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCollapse(1)}>
                 <h3 className="text-xl font-semibold text-gray-800">Typing Experience</h3>
                 {openIndex === 1 ? <FiChevronUp className="text-gray-600 h-6 w-6" /> : <FiChevronDown className="text-gray-600 h-6 w-6" />}
@@ -53,7 +53,7 @@ const WhyChooseMechanicalKeyboards: React.FC = () => {
             </div>
           </div>
           <div className="space-y-4">
-            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="zoom-in">
+            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="fade-up" data-aos-delay="300">
               <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCollapse(2)}>
                 <h3 className="text-xl font-semibold text-gray-800">Customization Options</h3>
                 {openIndex === 2 ? <FiChevronUp className="text-gray-600 h-6 w-6" /> : <FiChevronDown className="text-gray-600 h-6 w-6" />}
@@ -64,7 +64,7 @@ const WhyChooseMechanicalKeyboards: React.FC = () => {
                 </p>
               )}
             </div>
-            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="zoom-in">
+            <div className="border border-gray-200 rounded-lg p-4 transition duration-300 ease-in-out hover:shadow-md" data-aos="fade-up" data-aos-delay="400">
               <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCollapse(3)}>
                 <h3 className="text-xl font-semibold text-gray-800">Typing Speed and Accuracy</h3>
                 {openIndex === 3 ? <FiChevronUp className="text-gray-600 h-6 w-6" /> : <FiChevronDown className="text-gray-600 h-6 w-6" />}

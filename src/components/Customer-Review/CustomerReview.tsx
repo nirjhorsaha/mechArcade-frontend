@@ -6,13 +6,16 @@ import reviewsData from './reviews.json';
 
 const CustomerReview: React.FC = () => {
   useEffect(() => {
-    AOS.init(); 
+    AOS.init();
   }, []);
 
   return (
-    <div className="p-6 mt-10">
+    <div className="bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-semibold text-blue-600 mb-6 text-center">Customer Reviews</h2>
+        <div className="text-left mb-6">
+          <h2 className="text-3xl font-semibold text-blue-600 mb-1">Customer Reviews</h2>
+          <h3 className="text-lg font-medium text-gray-600">See what our customers are saying about us!</h3>
+        </div>
         <Carousel autoplay>
           {reviewsData.map((review) => (
             <div key={review.id} className="bg-gray-100 p-8 rounded-lg shadow-md">

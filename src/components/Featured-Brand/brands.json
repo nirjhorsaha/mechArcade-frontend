@@ -1,23 +1,27 @@
 [
-    {
-      "id": 1,
-      "name": "Corsair",
-      "logoUrl": "https://example.com/corsair-logo.png"
-    },
-    {
-      "id": 2,
-      "name": "Logitech",
-      "logoUrl": "https://example.com/logitech-logo.png"
-    },
-    {
-      "id": 3,
-      "name": "Razer",
-      "logoUrl": "https://example.com/razer-logo.png"
-    },
-    {
-      "id": 4,
-      "name": "SteelSeries",
-      "logoUrl": "https://example.com/steelseries-logo.png"
-    }
-  ]
-  
+  {
+    "id": 1,
+    "title": "Corsair",
+    "logo": "../../assets/Brand_Corsair_logo.png"
+  },
+  {
+    "id": 2,
+    "title": "Razer",
+    "logo": "../../assets/Brand_Razer_logo.png"
+  },
+  {
+    "id": 3,
+    "title": "Ducky",
+    "logo": "../../assets/Brand_Ducky_logo.png"
+  },
+  {
+    "id": 4,
+    "title": "Logitech",
+    "logo": "../../assets/Brand_Logitech_logo.png"
+  },
+  {
+    "id": 5,
+    "title": "Keycron",
+    "logo": "../../assets/Brand_Keychron_logo.png"
+  }
+]
