@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 
 const Dashboard =() => {
   return (
-    <div>
+    <div className="min-h-screen">
       <Helmet>
         <title>Dashboard - Mech Arcade</title>
       </Helmet>

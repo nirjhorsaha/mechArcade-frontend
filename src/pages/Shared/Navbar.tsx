@@ -1,33 +1,7 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
-interface NavLinkProps {
-  to: string;
-  name: string;
-  activeTab: string;
-  handleTabClick: (tabName: string) => void;
-}
-
-const NavLink = ({ to, name, activeTab, handleTabClick }: NavLinkProps) => (
-  <li>
-    <Link
-      to={to}
-      onClick={() => handleTabClick(name)}
-      className={`nav-link ${activeTab === name ? 'text-white bg-blue-600' : 'text-gray-700 hover:text-gray-900'}`}
-    >
-      {name}
-    </Link>
-  </li>
-);
-
 const Navbar = () => {
-  const [activeTab, setActiveTab] = useState<string>('Home'); // Initialize with the default active tab
-
-  const handleTabClick = (tabName: string) => {
-    setActiveTab(tabName);
-  };
-
   return (
     <div className="navbar bg-base-100 mb-5">
       <div className="navbar-start">
@@ -38,7 +12,8 @@ const Navbar = () => {
               className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor">
+              stroke="currentColor"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -49,32 +24,120 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[2] mt-3 w-52 p-2 shadow">
-            <NavLink to="/" name="Home" activeTab={activeTab} handleTabClick={handleTabClick} />
-            <NavLink to="/products" name="Products" activeTab={activeTab} handleTabClick={handleTabClick} />
-            <NavLink to="/about" name="About Us" activeTab={activeTab} handleTabClick={handleTabClick} />
-            <NavLink to="/contact" name="Contact Us" activeTab={activeTab} handleTabClick={handleTabClick} />
-            <NavLink to="/dashboard" name="Dashboard" activeTab={activeTab} handleTabClick={handleTabClick} />
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[2] mt-3 w-52 p-2 shadow"
+          >
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/products"
+                className={({ isActive }) =>
+                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+                }
+              >
+                Products
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+                }
+              >
+                About Us
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+                }
+              >
+                Contact Us
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>
           </ul>
         </div>
-
         <div className="logo-container">
-          <Link to="/" className="logo-link flex items-center space-x-2">
+          <NavLink to="/" className="logo-link flex items-center space-x-2">
             <img src={logo} alt="Logo" className="h-10 lg:h-16 p-1 lg:ml-2" />
-          </Link>
+          </NavLink>
         </div>
       </div>
-
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <NavLink to="/" name="Home" activeTab={activeTab} handleTabClick={handleTabClick} />
-          <NavLink to="/products" name="Products" activeTab={activeTab} handleTabClick={handleTabClick} />
-          <NavLink to="/about" name="About Us" activeTab={activeTab} handleTabClick={handleTabClick} />
-          <NavLink to="/contact" name="Contact Us" activeTab={activeTab} handleTabClick={handleTabClick} />
-          <NavLink to="/dashboard" name="Dashboard" activeTab={activeTab} handleTabClick={handleTabClick} />
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+              }
+            >
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+              }
+            >
+              Products
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+              }
+            >
+              About Us
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
+                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+              }
+            >
+              Contact Us
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+              }
+            >
+              Dashboard
+            </NavLink>
+          </li>
         </ul>
       </div>
-
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle" aria-label="View cart">
@@ -84,24 +147,29 @@ const Navbar = () => {
                 className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
           <div
             tabIndex={0}
-            className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
+            className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
+          >
             <div className="card-body">
               <span className="text-lg font-bold">8 Items</span>
               <span className="text-info">Subtotal: $999</span>
               <div className="card-actions">
-                <button className="btn btn-primary btn-block">View cart</button>
+              <NavLink to="/cart" className="btn btn-primary btn-block">
+                  View Cart
+                </NavLink>
               </div>
             </div>
           </div>
@@ -111,12 +179,14 @@ const Navbar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="User avatar"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+              />
             </div>
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+          >
             <li>
               <a className="justify-between">
                 Profile
