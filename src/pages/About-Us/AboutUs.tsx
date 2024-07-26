@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { FiAward, FiUsers, FiSettings } from 'react-icons/fi'; // Import necessary icons
+import { FiAward, FiUsers, FiSettings, FiTrendingUp } from 'react-icons/fi';
 import logo from '../../assets/logo.png';
 import 'aos/dist/aos.css'; 
 import AOS from 'aos'; 
@@ -9,9 +9,9 @@ import { useEffect } from 'react';
 const AboutUs = () => {
   useEffect(() => {
     AOS.init({
-      once: true, // Whether animation should happen only once - while scrolling down
+      once: true, 
       duration: 800, // Duration of animation (in ms)
-      easing: 'ease-in-out', // Easing option
+      easing: 'ease-in-out',
     });
   }, []);
 
@@ -51,7 +51,7 @@ const AboutUs = () => {
         </div>
 
         <div className="mt-12" data-aos="fade-up">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 animate-bounce">
             Our Mission
           </h2>
           <p className="text-lg text-gray-600 mb-6">
@@ -59,37 +59,22 @@ const AboutUs = () => {
             top-quality products that enhance their computing experience. We
             strive to deliver:
           </p>
-          <ul className="list-disc list-inside text-lg text-gray-600 mb-6">
-            <li className="flex items-start mb-2">
-              <FiAward className="mr-2 mt-1 text-blue-500" /> Innovative and
+          <ul className="list-disc list-inside text-lg text-gray-600 mb-6 space-y-4">
+            <li className="flex items-start">
+              <FiAward className="mr-2 mt-1 text-blue-500 animate-spin" /> Innovative and
               cutting-edge mechanical keyboards.
             </li>
-            <li className="flex items-start mb-2">
-              <FiUsers className="mr-2 mt-1 text-blue-500" /> Exceptional
+            <li className="flex items-start">
+              <FiUsers className="mr-2 mt-1 text-blue-500 animate-bounce" /> Exceptional
               customer service and support.
             </li>
-            <li className="flex items-start mb-2">
-              <FiSettings className="mr-2 mt-1 text-blue-500" /> Curated
+            <li className="flex items-start">
+              <FiSettings className="mr-2 mt-1 text-blue-500 animate-spin" /> Curated
               collections that cater to diverse preferences.
             </li>
             <li className="flex items-start">
-              <svg
-                className="mr-2 mt-1 text-blue-500"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="16 12 12 8 8 12"></polyline>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-              </svg>
-              Continuous improvement and community engagement.
+              <FiTrendingUp className="mr-2 mt-1 text-blue-500 animate-bounce" /> Continuous
+              improvement and community engagement.
             </li>
           </ul>
           <p className="text-lg text-gray-600">
