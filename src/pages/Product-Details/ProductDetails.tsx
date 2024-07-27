@@ -1,23 +1,23 @@
-import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
-import Breadcrumbs from '../Shared/Breadcrumbs';
+import Breadcrumbs from '../../components/ui/Breadcrumbs';
 import { useParams } from 'react-router-dom';
 import { useGetSingleProductQuery } from '@/redux/api/baseApi';
-import { GridLoader } from 'react-spinners';
-import ErrorComponent from '../Shared/ErrorComponent';
+import ErrorComponent from '../../components/ui/ErrorComponent';
 import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/redux/feature/CartSlice';
 import { useAppSelector } from '@/redux/hooks';
 import { RootState } from '@/redux/store';
 import toast, { Toaster } from 'react-hot-toast';
+import reviews from './productReviews.json';
+import Loading from '@/components/ui/loading';
 
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetSingleProductQuery(id as string);
   const product = data?.data;
-  
+
   const rating = product?.rating || 0;
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
@@ -26,13 +26,8 @@ const ProductDetails: React.FC = () => {
   const cart = useAppSelector((state: RootState) => state.cart.items);
   const isInCart = cart.some((item) => item._id === product?._id);
 
-
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <GridLoader color="#2563eb" />
-      </div>
-    );
+    return <Loading />;
   }
 
   if (error) {
@@ -62,7 +57,7 @@ const ProductDetails: React.FC = () => {
         <title>{product?.name} - Mech Arcade</title>
       </Helmet>
       <div className="p-6 max-w-7xl mx-auto bg-white border rounded-lg">
-      <Toaster />
+        <Toaster />
 
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <div className="flex flex-col lg:flex-row">
@@ -70,7 +65,7 @@ const ProductDetails: React.FC = () => {
             <img
               src={product?.imageUrl}
               alt={product?.name || 'Product Image'}
-              className="w-full h-full object-cover border rounded-lg "
+              className="w-full h-full object-cover border rounded-lg"
             />
           </div>
           <div className="lg:ml-6 flex-1">
@@ -105,6 +100,35 @@ const ProductDetails: React.FC = () => {
                   ? 'Added'
                   : 'Add to Cart'}
             </button>
+          </div>
+        </div>
+        
+        {/* Additional Section for Customer Reviews */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+          <div className="space-y-4">
+            {reviews.map(review => (
+              <div key={review.id} className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gray-50">
+                <div className="flex items-center mb-2">
+                  <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full mr-4" />
+                  <div>
+                    <h3 className="font-semibold text-lg">{review.name}</h3>
+                    <div className="flex">
+                      {Array.from({ length: 5 }, (_, index) => {
+                        if (index < Math.floor(review.rating)) {
+                          return <FaStar key={index} color="gold" />;
+                        } else if (index === Math.floor(review.rating) && review.rating % 1 !== 0) {
+                          return <FaStarHalfAlt key={index} color="gold" />;
+                        } else {
+                          return <FaRegStar key={index} color="gray" />;
+                        }
+                      })}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-700">{review.review}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
