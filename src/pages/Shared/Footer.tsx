@@ -6,28 +6,33 @@ const Footer = () => {
       <aside className='mx-auto lg:mx-0 lg:my-auto '>
         <img src={logo} alt="Logo" className="h-24 lg:h-32 lg:ml-2 " />
       </aside>
+      <nav className="mb-6 lg:mb-0">
+            <h6 className="footer-title text-2xl font-bold mb-4 textblack">Services</h6>
+            <ul className="space-y-2">
+              <li><a href="/services/branding" className=" text-black hover:text-blue-600 transition duration-300 ">Branding</a></li>
+              <li><a href="/services/design" className=" text-black hover:text-blue-600 transition duration-300">Design</a></li>
+              <li><a href="/services/marketing" className=" text-black hover:text-blue-600 transition duration-300">Marketing</a></li>
+              <li><a href="/services/advertisement" className=" text-black hover:text-blue-600 transition duration-300">Advertisement</a></li>
+            </ul>
+          </nav>
+          <nav className="mb-6 lg:mb-0">
+            <h6 className="footer-title text-2xl font-bold mb-4 text-black">Company</h6>
+            <ul className="space-y-2">
+              <li><a href="/about" className=" text-black hover:text-blue-600 transition duration-300">About us</a></li>
+              <li><a href="/contact" className=" text-black hover:text-blue-600 transition duration-300">Contact</a></li>
+        
+            </ul>
+          </nav>
+
+          <nav className="mb-6 lg:mb-0">
+            <h6 className="footer-title text-2xl font-bold mb-4 text-black">Legal</h6>
+            <ul className="space-y-2">
+              <li><a href="/terms" className=" text-black hover:text-blue-600 transition duration-300">Terms of use</a></li>
+              <li><a href="/privacy" className=" text-black hover:text-blue-600 transition duration-300">Privacy policy</a></li>
+            </ul>
+          </nav>
       <nav>
-        <h6 className="footer-title font-extrabold text-black">Services</h6>
-        <a className="link link-hover text-blue-600">Branding</a>
-        <a className="link link-hover text-blue-600">Design</a>
-        <a className="link link-hover text-blue-600">Marketing</a>
-        <a className="link link-hover text-blue-600">Advertisement</a>
-      </nav>
-      <nav>
-        <h6 className="footer-title font-extrabold text-black">Company</h6>
-        <a className="link link-hover text-blue-600">About us</a>
-        <a className="link link-hover text-blue-600">Contact</a>
-        <a className="link link-hover text-blue-600">Jobs</a>
-        <a className="link link-hover text-blue-600">Press kit</a>
-      </nav>
-      <nav>
-        <h6 className="footer-title font-extrabold text-black">Legal</h6>
-        <a className="link link-hover text-blue-600">Terms of use</a>
-        <a className="link link-hover text-blue-600">Privacy policy</a>
-        <a className="link link-hover text-blue-600">Cookie policy</a>
-      </nav>
-      <nav>
-        <h6 className="footer-title font-extrabold text-black">Social</h6>
+        <h6 className="footer-title text-2xl font-bold mb-4 text-black">Social</h6>
         <div className="grid grid-flow-col gap-4 ">
           <a>
             <svg
