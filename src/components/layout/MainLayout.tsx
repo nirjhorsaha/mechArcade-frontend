@@ -6,20 +6,11 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
     return (
         <div data-theme="light">
-            <main>
-                <NavBar />
-                <div>
-                    <Container className="min-h-screen">
-                        <Outlet />
-                    </Container>
-                </div>
-                <Footer />
-            </main>
-            {/* <Container>
+            <Container className="min-h-screen">
                 <NavBar />
                 <Outlet />
                 <Footer />
-            </Container> */}
+            </Container>
         </div>
     );
 };
