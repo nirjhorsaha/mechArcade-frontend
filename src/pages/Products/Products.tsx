@@ -9,6 +9,7 @@ import { FaExclamationTriangle } from 'react-icons/fa';
 import { useDebounce } from '@/hooks/useDebounce';
 import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
+import { Helmet } from 'react-helmet';
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -96,6 +97,10 @@ const Products = () => {
   };
 
   return (
+    <div>
+      <Helmet>
+        <title>Product - Mech Arcade</title>
+      </Helmet>
     <div className="bg-white py-12 max-w-7xl mx-auto flex">
       {/* Filters Section */}
       <div className="w-1/4 px-4 sm:px-6 lg:px-8">
@@ -161,7 +166,8 @@ const Products = () => {
           ))}
         </div>
       </div>
-    </div>
+      </div>
+      </div>
   );
 };
 
