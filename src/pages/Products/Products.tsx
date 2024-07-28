@@ -54,28 +54,6 @@ const Products = () => {
     setDisplayedProducts(filteredProducts);
   }, [debouncedSearchTerm, priceRange, sortOption, originalProducts]);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <GridLoader color="#2563eb" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div className="text-center text-red-600">Error fetching products</div>;
-  }
-
-  if (displayedProducts.length === 0) {
-    return (
-      <div className="text-center text-gray-600 flex flex-col items-center">
-        <FaExclamationTriangle size={40} className="text-red-500 mb-2" />
-        <p className="text-xl font-semibold">No products found</p>
-        <p className="text-gray-500">Try adjusting your search or filter criteria</p>
-      </div>
-    );
-  }
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
@@ -101,73 +79,91 @@ const Products = () => {
       <Helmet>
         <title>Product - Mech Arcade</title>
       </Helmet>
-    <div className="bg-white py-12 max-w-7xl mx-auto flex">
-      {/* Filters Section */}
-      <div className="w-1/4 px-4 sm:px-6 lg:px-8">
-        <div className="text-left mb-6">
-          <h2 className="text-4xl font-semibold text-blue-600 mb-1">Filters</h2>
-        </div>
+      <div className="bg-white py-12 max-w-7xl mx-auto flex flex-col lg:flex-row">
+        {/* Filters Section */}
+        <div className="w-full lg:w-1/4 px-4 sm:px-6 lg:px-8">
+          <div className="text-left mb-6">
+            <h2 className="text-4xl font-semibold text-blue-600 mb-1">Filters</h2>
+          </div>
 
-        <div className="mb-6 sticky top-0">
-          <input
-            type="text"
-            placeholder="Search by name or brand"
-            onChange={handleSearch}
-            className="border rounded-md px-4 py-2 w-full mb-4"
-            aria-label="Search by name or brand"
-          />
-          <div className="mb-4">
-            <label className="block text-gray-600 mb-1">
-              Selected Range: ${priceRange[0]} - ${priceRange[1]}
-            </label>
-            <Slider
-              range
-              min={0}
-              max={1000}
-              defaultValue={[0, 1000]}
-              value={priceRange}
-              onChange={handlePriceRangeChange}
-              className="w-full"
+          <div className="mb-6 sticky top-0">
+            <input
+              type="text"
+              placeholder="Search by name or brand"
+              onChange={handleSearch}
+              className="border rounded-md px-4 py-2 w-full mb-4"
+              aria-label="Search by name or brand"
             />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-600 mb-1">Sort By Price:</label>
-            <select
-              value={sortOption ?? ''}
-              onChange={handleSortChange}
-              className="border rounded-md px-4 py-2"
-              aria-label="Sort products by price"
+            <div className="mb-4">
+              <label className="block text-gray-600 mb-1">
+                Selected Range: ${priceRange[0]} - ${priceRange[1]}
+              </label>
+              <Slider
+                range
+                min={0}
+                max={1000}
+                defaultValue={[0, 1000]}
+                value={priceRange}
+                onChange={handlePriceRangeChange}
+                className="w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-600 mb-1">Sort By Price:</label>
+              <select
+                value={sortOption ?? ''}
+                onChange={handleSortChange}
+                className="border rounded-md px-4 py-2"
+                aria-label="Sort products by price"
+              >
+                <option value="">Sort By Price</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+              </select>
+            </div>
+            <button
+              onClick={clearFilters}
+              className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
+              aria-label="Clear all filters"
             >
-              <option value="">Sort By Price</option>
-              <option value="asc">Price: Low to High</option>
-              <option value="desc">Price: High to Low</option>
-            </select>
+              Clear Filters
+            </button>
           </div>
-          <button
-            onClick={clearFilters}
-            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
-            aria-label="Clear all filters"
-          >
-            Clear Filters
-          </button>
-        </div>
-      </div>
-
-      {/* Products Section */}
-      <div className="w-3/4 px-4 sm:px-6 lg:px-8">
-        <div className="text-left mb-6">
-          <h2 className="text-4xl font-semibold text-blue-600 mb-1">All Products</h2>
-          <h3 className="text-lg font-medium text-gray-600">Find the perfect mechanical keyboard for you!</h3>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {displayedProducts.map((product: Product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+        {/* Products Section */}
+        <div className="w-full lg:w-3/4 px-4 sm:px-6 lg:px-8">
+          <div className="text-left mb-6">
+            <h2 className="text-4xl font-semibold text-blue-600 mb-1">All Products</h2>
+            <h3 className="text-lg font-medium text-gray-600">Find the perfect mechanical keyboard for you!</h3>
+          </div>
+
+          {isLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <GridLoader color="#2563eb" />
+            </div>
+          ) : error ? (
+            <div className="flex justify-center items-center h-full">
+              <div className="text-center text-red-600">Error fetching products</div>
+            </div>
+          ) : displayedProducts.length === 0 ? (
+            <div className="flex justify-center items-center h-full">
+              <div className="text-center text-gray-600 flex flex-col items-center">
+                <FaExclamationTriangle size={40} className="text-red-500 mb-2" />
+                <p className="text-xl font-semibold">No products found</p>
+                <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {displayedProducts.map((product: Product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
-      </div>
-      </div>
+    </div>
   );
 };
 

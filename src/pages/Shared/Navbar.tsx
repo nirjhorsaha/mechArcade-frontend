@@ -4,7 +4,6 @@ import logo from '../../assets/logo.png';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-
 const Navbar: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   
@@ -12,14 +11,25 @@ const Navbar: React.FC = () => {
   const cartItemCount = cartItems.length;
   
   // Calculate the subtotal
-  const cartSubtotal = cartItems.reduce((total, item) => total + item.price, 0);
-  console.log(cartItems,cartItemCount, cartSubtotal)
+  const cartSubtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  // Reusable NavLink component
+  const CustomNavLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+      }
+    >
+      {children}
+    </NavLink>
+  );
 
   return (
     <div className="navbar bg-base-100 mb-5">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" aria-label="Toggle navigation">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" aria-label="Toggle navigation" aria-haspopup="true" aria-expanded="false">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -38,57 +48,13 @@ const Navbar: React.FC = () => {
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[2] mt-3 w-52 p-2 shadow"
+            aria-label="Dropdown menu"
           >
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/products"
-                className={({ isActive }) =>
-                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-                }
-              >
-                Products
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-                }
-              >
-                About Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-                }
-              >
-                Contact Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-                }
-              >
-                Dashboard
-              </NavLink>
-            </li>
+            <li><CustomNavLink to="/">Home</CustomNavLink></li>
+            <li><CustomNavLink to="/products">Products</CustomNavLink></li>
+            <li><CustomNavLink to="/about">About Us</CustomNavLink></li>
+            <li><CustomNavLink to="/contact">Contact Us</CustomNavLink></li>
+            <li><CustomNavLink to="/dashboard">Dashboard</CustomNavLink></li>
           </ul>
         </div>
         <div className="logo-container">
@@ -99,61 +65,16 @@ const Navbar: React.FC = () => {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-              }
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/products"
-              className={({ isActive }) =>
-                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-              }
-            >
-              Products
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/about"
-              className={({ isActive }) =>
-                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-              }
-            >
-              About Us
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-              }
-            >
-              Contact Us
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
-              }
-            >
-              Dashboard
-            </NavLink>
-          </li>
+          <li><CustomNavLink to="/">Home</CustomNavLink></li>
+          <li><CustomNavLink to="/products">Products</CustomNavLink></li>
+          <li><CustomNavLink to="/about">About Us</CustomNavLink></li>
+          <li><CustomNavLink to="/contact">Contact Us</CustomNavLink></li>
+          <li><CustomNavLink to="/dashboard">Dashboard</CustomNavLink></li>
         </ul>
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle" aria-label="View cart">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle" aria-label="View cart" aria-haspopup="true" aria-expanded="false">
             <div className="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -175,12 +96,13 @@ const Navbar: React.FC = () => {
           <div
             tabIndex={0}
             className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
+            aria-label="Cart dropdown"
           >
             <div className="card-body">
-              <span className="text-lg font-bold">{cartItemCount} Items</span>
-              <span className="text-info">Subtotal: ${cartSubtotal.toFixed(2)}</span>
+              <span className="text-lg font-bold">Items: {cartItemCount}</span>
+              <span className="text-black">Subtotal: ${cartSubtotal.toFixed(2)}</span>
               <div className="card-actions">
-                <NavLink to="/cart" className="btn btn-primary btn-block">
+                <NavLink to="/cart" className="btn btn-block bg-blue-600 text-white">
                   View Cart
                 </NavLink>
               </div>
@@ -188,7 +110,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" aria-label="User menu">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" aria-label="User menu" aria-haspopup="true" aria-expanded="false">
             <div className="w-10 rounded-full">
               <img
                 alt="User avatar"
@@ -199,6 +121,7 @@ const Navbar: React.FC = () => {
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            aria-label="User dropdown menu"
           >
             <li>
               <a className="justify-between">

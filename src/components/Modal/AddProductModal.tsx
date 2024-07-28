@@ -9,7 +9,6 @@ interface AddProductModalProps {
 
 const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => {
   const [newProduct, setNewProduct] = useState<Product>({
-    id: Math.random(), // Generate a random id for demo purposes
     name: '',
     price: 0,
     brand: '',

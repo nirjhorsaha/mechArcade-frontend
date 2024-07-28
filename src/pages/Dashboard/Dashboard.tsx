@@ -5,22 +5,16 @@ import { Product } from '@/types';
 import DeleteProductModal from '../../components/Modal/DeleteProductModal';
 import AddProductModal from '../../components/Modal/AddProductModal';
 import UpdateProductModal from '../../components/Modal/UpdateProductModal';
+import { useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, useUpdateProductMutation } from '@/redux/api/baseApi';
 
 const Dashboard: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([
-    {
-      _id: 1,
-      name: 'Mechanical Keyboard',
-      price: 99.99,
-      brand: 'Brand A',
-      description: 'High-quality mechanical keyboard',
-      quantity: 10,
-      rating: 4.5,
-      imageUrl: 'link_to_image_1',
-      isDeleted: false,
-      inStock: true,
-    },
-  ]);
+  const { data, error, isLoading } = useGetProductsQuery({});
+  
+  const products = data?.data.result ?? [];
+
+  const [addProduct] = useAddProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
 
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -41,63 +35,66 @@ const Dashboard: React.FC = () => {
     setIsAddModalOpen(true);
   };
 
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading products!</p>;
+
   return (
-    <div>
+    <div className="p-4">
       <Helmet>
         <title>Dashboard - Mech Arcade</title>
       </Helmet>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <h1 className="text-3xl font-bold mb-4 sm:mb-0">Dashboard</h1>
         <button
           onClick={openAddModal}
-          className="flex items-center bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+          className="flex items-center bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm sm:text-base"
         >
           <FiPlus className="mr-2" /> Add Product
         </button>
       </div>
-      <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="py-2 px-4 text-left">Item</th>
-            <th className="py-2 px-4 text-left">Product Name</th>
-            <th className="py-2 px-4 text-left">Product Price</th>
-            <th className="py-2 px-4 text-left">Brand</th>
-            <th className="py-2 px-4 text-left">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product, index) => (
-            <tr key={product._id} className="border-b">
-              <td className="py-2 px-4">{index + 1}</td>
-              <td className="py-2 px-4">{product.name}</td>
-              <td className="py-2 px-4">${product.price.toFixed(2)}</td>
-              <td className="py-2 px-4">{product.brand}</td>
-              <td className="py-2 px-4 flex items-center space-x-2">
-                <button
-                  onClick={() => openUpdateModal(product)}
-                  className="text-blue-500 hover:text-blue-600"
-                >
-                  <FiEdit />
-                </button>
-                <button
-                  onClick={() => openDeleteModal(product)}
-                  className="text-red-500 hover:text-red-600"
-                >
-                  <FiTrash2 />
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="py-2 px-4 text-left">Item</th>
+              <th className="py-2 px-4 text-left">Product Name</th>
+              <th className="py-2 px-4 text-left">Product Price</th>
+              <th className="py-2 px-4 text-left">Brand</th>
+              <th className="py-2 px-4 text-left">Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products && products.map((product: Product, index: number) => (
+              <tr key={product._id} className="border-b">
+                <td className="py-2 px-4">{index + 1}</td>
+                <td className="py-2 px-4">{product.name}</td>
+                <td className="py-2 px-4">${product.price.toFixed(2)}</td>
+                <td className="py-2 px-4">{product.brand}</td>
+                <td className="py-2 px-4 flex items-center space-x-2">
+                  <button
+                    onClick={() => openUpdateModal(product)}
+                    className="text-blue-500 hover:text-blue-600"
+                  >
+                    <FiEdit />
+                  </button>
+                  <button
+                    onClick={() => openDeleteModal(product)}
+                    className="text-red-500 hover:text-red-600"
+                  >
+                    <FiTrash2 />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {isUpdateModalOpen && selectedProduct && (
         <UpdateProductModal
           product={selectedProduct}
           onClose={() => setIsUpdateModalOpen(false)}
-          onSave={(updatedProduct) => {
-            setProducts((prev) =>
-              prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
-            );
+          onSave={(updatedProduct: Product) => {
+            updateProduct({ id: updatedProduct._id, product: updatedProduct });
             setIsUpdateModalOpen(false);
           }}
         />
@@ -107,7 +104,7 @@ const Dashboard: React.FC = () => {
           product={selectedProduct}
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={() => {
-            setProducts((prev) => prev.filter((p) => p._id !== selectedProduct._id));
+            deleteProduct(selectedProduct?._id);
             setIsDeleteModalOpen(false);
           }}
         />
@@ -116,7 +113,8 @@ const Dashboard: React.FC = () => {
         <AddProductModal
           onClose={() => setIsAddModalOpen(false)}
           onAdd={(newProduct: Product) => {
-            setProducts((prev) => [...prev, newProduct]);
+            console.log(newProduct)
+            addProduct(newProduct);
             setIsAddModalOpen(false);
           }}
         />

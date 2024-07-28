@@ -1,21 +1,20 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FaTrash, FaPlus, FaMinus, FaShoppingCart } from 'react-icons/fa';
+import { FaTrash, FaShoppingCart } from 'react-icons/fa';
 import { RootState } from '@/redux/store';
-import { removeFromCart, updateQuantity } from '@/redux/feature/CartSlice';
+import { removeFromCart, increaseQuantity, decreaseQuantity } from '@/redux/feature/CartSlice';
+import QuantityAdjuster from '../Shared/QuantityAdjuster';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.items);
 
-  const handleQuantityChange = (id: string, increment: boolean) => {
-    const item = cart.find(item => item._id === id);
-    if (item) {
-      const newQuantity = increment ? item.quantity + 1 : item.quantity - 1;
-      if (newQuantity > 0 && newQuantity <= item.stock) {
-        dispatch(updateQuantity({ id, quantity: newQuantity }));
-      }
+  const handleQuantityChange = (id: string, increase: boolean) => {
+    if (increase) {
+      dispatch(increaseQuantity(id));
+    } else {
+      dispatch(decreaseQuantity(id));
     }
   };
 
@@ -31,7 +30,7 @@ const Cart: React.FC = () => {
       subtotal,
       shipping,
       taxes,
-      total: subtotal + shipping + taxes
+      total: subtotal + shipping + taxes,
     };
   };
 
@@ -68,24 +67,12 @@ const Cart: React.FC = () => {
                     <td className="p-4 text-gray-600">{item.brand}</td>
                     <td className="p-4 text-gray-600">${item.price.toFixed(2)}</td>
                     <td className="p-4">
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() => handleQuantityChange(item._id, false)}
-                          className="p-2 bg-gray-200 rounded-full text-gray-600 hover:bg-gray-300"
-                          disabled={item.quantity <= 1}
-                          aria-label={`Decrease quantity of ${item.name}`}
-                        >
-                          <FaMinus aria-hidden="true" />
-                        </button>
-                        <span className="text-lg font-medium">{item.quantity}</span>
-                        <button
-                          onClick={() => handleQuantityChange(item._id, true)}
-                          className="p-2 bg-gray-200 rounded-full text-gray-600 hover:bg-gray-300"
-                          aria-label={`Increase quantity of ${item.name}`}
-                        >
-                          <FaPlus aria-hidden="true" />
-                        </button>
-                      </div>
+                      <QuantityAdjuster
+                        quantity={item.quantity}
+                        stock={item.stock}
+                        onIncrease={() => handleQuantityChange(item._id, true)}
+                        onDecrease={() => handleQuantityChange(item._id, false)}
+                      />
                     </td>
                     <td className="p-4 text-gray-800">${(item.price * item.quantity).toFixed(2)}</td>
                     <td className="p-4">
@@ -102,10 +89,10 @@ const Cart: React.FC = () => {
               </tbody>
             </table>
             <div className="md:hidden flex flex-col gap-4">
-              {cart.map(item => (
+              {cart.map((item, index) => (
                 <div key={item._id} className="bg-gray-100 p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-bold text-gray-800">{item.name}</h2>
+                    <h2 className="text-lg font-bold text-gray-800">{`${index + 1}. ${item.name}`}</h2>
                     <button
                       onClick={() => removeItem(item._id)}
                       className="text-red-600 hover:text-red-800"
@@ -116,24 +103,12 @@ const Cart: React.FC = () => {
                   </div>
                   <p className="text-gray-600">Brand: {item.brand}</p>
                   <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => handleQuantityChange(item._id, false)}
-                      className="p-2 bg-gray-300 rounded-full text-gray-600 hover:bg-gray-400"
-                      disabled={item.quantity <= 1}
-                      aria-label={`Decrease quantity of ${item.name}`}
-                    >
-                      <FaMinus aria-hidden="true" />
-                    </button>
-                    <span className="text-lg font-medium">{item.quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange(item._id, true)}
-                      className="p-2 bg-gray-300 rounded-full text-gray-600 hover:bg-gray-400"
-                      aria-label={`Increase quantity of ${item.name}`}
-                    >
-                      <FaPlus aria-hidden="true" />
-                    </button>
-                  </div>
+                  <QuantityAdjuster
+                    quantity={item.quantity}
+                    stock={item.stock}
+                    onDecrease={() => handleQuantityChange(item._id, false)}
+                    onIncrease={() => handleQuantityChange(item._id, true)}
+                  />
                   <p className="text-lg font-bold text-gray-800">Total: ${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
@@ -161,13 +136,13 @@ const Cart: React.FC = () => {
             <span className="text-lg md:text-xl font-bold text-gray-800">${total.toFixed(2)}</span>
           </div>
         </div>
-        {cart.length > 0 && (
+        <Link to="/checkout">
           <button
-            className="w-full px-6 py-3 text-white font-bold rounded-full bg-blue-600 hover:bg-blue-700"
+            className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out"
           >
-            <Link to="/checkout">Proceed to Checkout</Link>
+            Proceed to Checkout
           </button>
-        )}
+        </Link>
       </div>
     </div>
   );

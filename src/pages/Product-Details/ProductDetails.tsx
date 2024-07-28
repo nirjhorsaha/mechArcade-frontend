@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
 import Breadcrumbs from '../../components/ui/Breadcrumbs';
 import { useParams } from 'react-router-dom';
@@ -5,13 +6,13 @@ import { useGetSingleProductQuery } from '@/redux/api/baseApi';
 import ErrorComponent from '../../components/ui/ErrorComponent';
 import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '@/redux/feature/CartSlice';
+import { addToCart, updateQuantity } from '@/redux/feature/CartSlice';
 import { useAppSelector } from '@/redux/hooks';
 import { RootState } from '@/redux/store';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import reviews from './productReviews.json';
 import Loading from '@/components/ui/loading';
-
+import QuantityAdjuster from '../Shared/QuantityAdjuster';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams();
@@ -24,7 +25,18 @@ const ProductDetails: React.FC = () => {
 
   const dispatch = useDispatch();
   const cart = useAppSelector((state: RootState) => state.cart.items);
-  const isInCart = cart.some((item) => item._id === product?._id);
+  const cartItem = cart.find((item) => item._id === product?._id);
+  const isInCart = !!cartItem;
+
+  const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    if (product && !isInCart) {
+      setQty(1);
+    } else if (cartItem) {
+      setQty(cartItem.quantity);
+    }
+  }, [product, isInCart, cartItem]);
 
   if (isLoading) {
     return <Loading />;
@@ -37,11 +49,33 @@ const ProductDetails: React.FC = () => {
   const handleAddToCart = () => {
     if (product) {
       if (!isInCart) {
-        dispatch(addToCart({ ...product }));
+        dispatch(addToCart({ ...product, quantity: qty }));
         toast.success('Product added to cart!');
-      } else {
+      } else if (cartItem && cartItem.quantity < product.quantity) {
+        dispatch(updateQuantity({ id: product._id, quantity: cartItem.quantity + 1 }));
         toast.error('Product already in cart!');
+      } else {
+        // toast.error('Product already in cart!');
       }
+    }
+  };
+
+  const handleIncrease = () => {
+    if (qty < product.quantity) {
+      const newQty = qty + 1;
+      setQty(qty + 1);
+      dispatch(updateQuantity({ id: product._id, quantity: newQty }));
+      toast.success('Product quantity increased!');
+    } else {
+      toast.error('No more stock available!');
+    }
+  };
+
+  const handleDecrease = () => {
+    if (qty > 1) {
+      const newQty = qty - 1;
+      setQty(qty - 1);
+      dispatch(updateQuantity({ id: product._id, quantity: newQty }));
     }
   };
 
@@ -57,8 +91,6 @@ const ProductDetails: React.FC = () => {
         <title>{product?.name} - Mech Arcade</title>
       </Helmet>
       <div className="p-6 max-w-7xl mx-auto bg-white border rounded-lg">
-        <Toaster />
-
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <div className="flex flex-col lg:flex-row">
           <div className="flex-shrink-0 lg:w-1/2 mb-4 lg:mb-0 relative">
@@ -85,6 +117,12 @@ const ProductDetails: React.FC = () => {
               })}
             </div>
             <p className="text-base text-gray-700 mb-4">{product?.description || 'Product Description'}</p>
+            <QuantityAdjuster
+              quantity={qty}
+              stock={product?.quantity || 0}
+              onIncrease={handleIncrease}
+              onDecrease={handleDecrease}
+            />
             <button
               onClick={handleAddToCart}
               className={`border px-6 py-3 rounded-lg shadow-md flex items-center transition-colors duration-300 ease-in-out 
@@ -102,7 +140,7 @@ const ProductDetails: React.FC = () => {
             </button>
           </div>
         </div>
-        
+
         {/* Additional Section for Customer Reviews */}
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
