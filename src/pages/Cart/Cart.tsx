@@ -1,62 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaTrash, FaPlus, FaMinus, FaShoppingCart } from 'react-icons/fa';
-
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  brand: string;
-  description: string;
-  quantity: number;
-  rating: number;
-  isDeleted: boolean;
-  inStock: boolean;
-}
-
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
+import { RootState } from '@/redux/store';
+import { removeFromCart, updateQuantity } from '@/redux/feature/CartSlice';
 
 const Cart: React.FC = () => {
-  const [cart, setCart] = useState<CartItem[]>([
-    {
-      product: {
-        _id: '1',
-        name: 'Mechanical Keyboard',
-        price: 99.99,
-        brand: 'Brand A',
-        description: 'High-quality mechanical keyboard',
-        quantity: 10,
-        rating: 4.5,
-        isDeleted: false,
-        inStock: true
-      },
-      quantity: 1
-    }
-  ]);
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.items);
 
-  const updateQuantity = (id: string, increment: boolean) => {
-    setCart(cart.map(item => {
-      if (item.product._id === id) {
-        const newQuantity = increment
-          ? Math.min(item.quantity + 1, item.product.quantity)
-          : Math.max(item.quantity - 1, 1);
-        return { ...item, quantity: newQuantity };
+  const handleQuantityChange = (id: string, increment: boolean) => {
+    const item = cart.find(item => item._id === id);
+    if (item) {
+      const newQuantity = increment ? item.quantity + 1 : item.quantity - 1;
+      if (newQuantity > 0 && newQuantity <= item.stock) {
+        dispatch(updateQuantity({ id, quantity: newQuantity }));
       }
-      return item;
-    }));
+    }
   };
 
   const removeItem = (id: string) => {
-    setCart(cart.filter(item => item.product._id !== id));
+    dispatch(removeFromCart(id));
   };
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-    const shipping = 40;
-    const taxes = subtotal * 0.1;
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const shipping = cart.length > 0 ? 40 : 0;
+    const taxes = shipping * 0.3;
     return {
       subtotal,
       shipping,
@@ -67,13 +37,11 @@ const Cart: React.FC = () => {
 
   const { subtotal, shipping, taxes, total } = calculateTotals();
 
-  const isStockAvailable = () => cart.every(item => item.quantity <= item.product.quantity);
-
   return (
     <div className="container mx-auto p-4 md:p-6 flex flex-col gap-6">
       <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg border border-gray-200 flex flex-col">
         <div className="flex items-center mb-4 md:mb-6">
-          <FaShoppingCart className="text-3xl md:text-4xl text-blue-600 mr-2" />
+          <FaShoppingCart className="text-3xl md:text-4xl text-blue-600 mr-2" aria-hidden="true" />
           <h1 className="text-2xl md:text-3xl font-extrabold text-gray-800">Your Cart</h1>
         </div>
         {cart.length === 0 ? (
@@ -94,37 +62,39 @@ const Cart: React.FC = () => {
               </thead>
               <tbody>
                 {cart.map((item, index) => (
-                  <tr key={item.product._id} className="border-b hover:bg-gray-50 transition-colors">
+                  <tr key={item._id} className="border-b hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-gray-700">{index + 1}</td>
-                    <td className="p-4 text-gray-800">{item.product.name}</td>
-                    <td className="p-4 text-gray-600">{item.product.brand}</td>
-                    <td className="p-4 text-gray-600">${item.product.price.toFixed(2)}</td>
+                    <td className="p-4 text-gray-800">{item.name}</td>
+                    <td className="p-4 text-gray-600">{item.brand}</td>
+                    <td className="p-4 text-gray-600">${item.price.toFixed(2)}</td>
                     <td className="p-4">
                       <div className="flex items-center space-x-2">
                         <button
-                          onClick={() => updateQuantity(item.product._id, false)}
+                          onClick={() => handleQuantityChange(item._id, false)}
                           className="p-2 bg-gray-200 rounded-full text-gray-600 hover:bg-gray-300"
                           disabled={item.quantity <= 1}
+                          aria-label={`Decrease quantity of ${item.name}`}
                         >
-                          <FaMinus />
+                          <FaMinus aria-hidden="true" />
                         </button>
                         <span className="text-lg font-medium">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.product._id, true)}
+                          onClick={() => handleQuantityChange(item._id, true)}
                           className="p-2 bg-gray-200 rounded-full text-gray-600 hover:bg-gray-300"
-                          disabled={item.quantity >= item.product.quantity}
+                          aria-label={`Increase quantity of ${item.name}`}
                         >
-                          <FaPlus />
+                          <FaPlus aria-hidden="true" />
                         </button>
                       </div>
                     </td>
-                    <td className="p-4 text-gray-800">${(item.product.price * item.quantity).toFixed(2)}</td>
+                    <td className="p-4 text-gray-800">${(item.price * item.quantity).toFixed(2)}</td>
                     <td className="p-4">
                       <button
-                        onClick={() => removeItem(item.product._id)}
+                        onClick={() => removeItem(item._id)}
                         className="text-red-600 hover:text-red-800"
+                        aria-label={`Remove ${item.name} from cart`}
                       >
-                        <FaTrash />
+                        <FaTrash aria-hidden="true" />
                       </button>
                     </td>
                   </tr>
@@ -133,36 +103,38 @@ const Cart: React.FC = () => {
             </table>
             <div className="md:hidden flex flex-col gap-4">
               {cart.map(item => (
-                <div key={item.product._id} className="bg-gray-100 p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
+                <div key={item._id} className="bg-gray-100 p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-bold text-gray-800">{item.product.name}</h2>
+                    <h2 className="text-lg font-bold text-gray-800">{item.name}</h2>
                     <button
-                      onClick={() => removeItem(item.product._id)}
+                      onClick={() => removeItem(item._id)}
                       className="text-red-600 hover:text-red-800"
+                      aria-label={`Remove ${item.name} from cart`}
                     >
-                      <FaTrash />
+                      <FaTrash aria-hidden="true" />
                     </button>
                   </div>
-                  <p className="text-gray-600">Brand: {item.product.brand}</p>
-                  <p className="text-gray-600">Price: ${item.product.price.toFixed(2)}</p>
+                  <p className="text-gray-600">Brand: {item.brand}</p>
+                  <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
                   <div className="flex items-center space-x-2">
                     <button
-                      onClick={() => updateQuantity(item.product._id, false)}
+                      onClick={() => handleQuantityChange(item._id, false)}
                       className="p-2 bg-gray-300 rounded-full text-gray-600 hover:bg-gray-400"
                       disabled={item.quantity <= 1}
+                      aria-label={`Decrease quantity of ${item.name}`}
                     >
-                      <FaMinus />
+                      <FaMinus aria-hidden="true" />
                     </button>
                     <span className="text-lg font-medium">{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.product._id, true)}
+                      onClick={() => handleQuantityChange(item._id, true)}
                       className="p-2 bg-gray-300 rounded-full text-gray-600 hover:bg-gray-400"
-                      disabled={item.quantity >= item.product.quantity}
+                      aria-label={`Increase quantity of ${item.name}`}
                     >
-                      <FaPlus />
+                      <FaPlus aria-hidden="true" />
                     </button>
                   </div>
-                  <p className="text-lg font-bold text-gray-800">Total: ${(item.product.price * item.quantity).toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-800">Total: ${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
@@ -189,12 +161,13 @@ const Cart: React.FC = () => {
             <span className="text-lg md:text-xl font-bold text-gray-800">${total.toFixed(2)}</span>
           </div>
         </div>
-        <button
-          disabled={!isStockAvailable()}
-          className={`w-full px-6 py-3 text-white font-bold rounded-full ${isStockAvailable() ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
-        >
-          <Link to="/checkout">Proceed to Checkout</Link>
-        </button>
+        {cart.length > 0 && (
+          <button
+            className="w-full px-6 py-3 text-white font-bold rounded-full bg-blue-600 hover:bg-blue-700"
+          >
+            <Link to="/checkout">Proceed to Checkout</Link>
+          </button>
+        )}
       </div>
     </div>
   );
