@@ -6,7 +6,8 @@ export interface CartItem {
     price: number;
     brand: string;
     stock: number;
-    quantity: number; // Include quantity in the CartItem
+    quantity: number; 
+    cartQuantity: number; // New field
 }
 
 interface CartState {
@@ -35,6 +36,9 @@ const cartSlice = createSlice({
                 (item) => item._id !== action.payload,
             );
         },
+        clearCart(state) {
+            state.items = [];
+        },
         increaseQuantity: (state, action: PayloadAction<string>) => {
             const item = state.items.find(
                 (item) => item._id === action.payload,
@@ -54,7 +58,7 @@ const cartSlice = createSlice({
         updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
             const item = state.items.find((item) => item._id === action.payload.id);
             if (item) {
-              item.quantity = action.payload.quantity;
+              item.cartQuantity = action.payload.quantity;
             }
           },
     },
@@ -63,6 +67,7 @@ const cartSlice = createSlice({
 export const {
     addToCart,
     removeFromCart,
+    clearCart,
     updateQuantity,
     increaseQuantity,
     decreaseQuantity,
