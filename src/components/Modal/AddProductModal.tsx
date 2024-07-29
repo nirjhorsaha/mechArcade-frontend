@@ -1,5 +1,6 @@
 import { Product } from '@/types';
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { FiX } from 'react-icons/fi';
 
 interface AddProductModalProps {
@@ -8,25 +9,13 @@ interface AddProductModalProps {
 }
 
 const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => {
-  const [newProduct, setNewProduct] = useState<Product>({
-    name: '',
-    price: 0,
-    brand: '',
-    description: '',
-    quantity: 0,
-    rating: 0,
-    imageUrl: '',
-    isDeleted: false,
-    inStock: true,
-  });
+  const { register, handleSubmit, formState: { errors } } = useForm<Product>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setNewProduct((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<Product> = (data) => {
+    const newProduct = {
+      ...data,
+      isDeleted: false,
+    };
     onAdd(newProduct);
   };
 
@@ -39,81 +28,79 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
             <FiX className="text-gray-500 hover:text-gray-700" />
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="name"
-            value={newProduct.name}
-            onChange={handleChange}
-            placeholder="Name"
-            className="w-full px-4 py-2 border rounded-md"
-            required
-          />
-          <input
-            type="number"
-            name="price"
-            value={newProduct.price}
-            onChange={handleChange}
-            placeholder="Price"
-            className="w-full px-4 py-2 border rounded-md"
-            required
-          />
-          <input
-            type="text"
-            name="brand"
-            value={newProduct.brand}
-            onChange={handleChange}
-            placeholder="Brand"
-            className="w-full px-4 py-2 border rounded-md"
-            required
-          />
-          <textarea
-            name="description"
-            value={newProduct.description}
-            onChange={handleChange}
-            placeholder="Description"
-            className="w-full px-4 py-2 border rounded-md"
-            rows={3}
-            required
-          />
-          <input
-            type="number"
-            name="quantity"
-            value={newProduct.quantity}
-            onChange={handleChange}
-            placeholder="Quantity"
-            className="w-full px-4 py-2 border rounded-md"
-            required
-          />
-          <input
-            type="number"
-            name="rating"
-            value={newProduct.rating}
-            onChange={handleChange}
-            placeholder="Rating"
-            className="w-full px-4 py-2 border rounded-md"
-            step="0.1"
-            required
-          />
-          <input
-            type="text"
-            name="imageUrl"
-            value={newProduct.imageUrl}
-            onChange={handleChange}
-            placeholder="Image URL"
-            className="w-full px-4 py-2 border rounded-md"
-            required
-          />
-          <label className="flex items-center space-x-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              {...register("name", { required: "Name is required" })}
+              placeholder="Name"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+            {errors.name && <span className="text-red-500">{errors.name.message}</span>}
+          </div>
+          <div>
+            <input
+              type="text"
+              {...register("brand", { required: "Brand is required" })}
+              placeholder="Brand"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+            {errors.brand && <span className="text-red-500">{errors.brand.message}</span>}
+          </div>
+          <div>
+            <input
+              type="number"
+              {...register("price", { required: "Price is required", valueAsNumber: true })}
+              placeholder="Price"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+            {errors.price && <span className="text-red-500">{errors.price.message}</span>}
+          </div>
+          <div>
+            <textarea
+              {...register("description", { required: "Description is required" })}
+              placeholder="Description"
+              className="w-full px-4 py-2 border rounded-md"
+              rows={3}
+            />
+            {errors.description && <span className="text-red-500">{errors.description.message}</span>}
+          </div>
+          <div>
+            <input
+              type="number"
+              {...register("quantity", { required: "Quantity is required", valueAsNumber: true })}
+              placeholder="Quantity"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+            {errors.quantity && <span className="text-red-500">{errors.quantity.message}</span>}
+          </div>
+          <div>
+            <input
+              type="number"
+              {...register("rating", { required: "Rating is required", valueAsNumber: true, min: 0, max: 5 })}
+              placeholder="Rating"
+              className="w-full px-4 py-2 border rounded-md"
+              step="0.1"
+            />
+            {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
+          </div>
+          <div>
+            <input
+              type="text"
+              {...register("imageUrl", { required: "Image URL is required" })}
+              placeholder="Image URL"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+            {errors.imageUrl && <span className="text-red-500">{errors.imageUrl.message}</span>}
+          </div>
+          <div className="flex items-center space-x-2">
             <input
               type="checkbox"
-              name="inStock"
-              checked={newProduct.inStock}
-              onChange={(e) => setNewProduct((prev) => ({ ...prev, inStock: e.target.checked }))}
+              {...register("inStock")}
               className="form-checkbox"
             />
             <span>In Stock</span>
-          </label>
+          </div>
           <button
             type="submit"
             className="w-full py-2 bg-blue-500 text-white font-bold rounded-md"
