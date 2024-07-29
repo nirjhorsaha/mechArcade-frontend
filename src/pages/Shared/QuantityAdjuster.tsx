@@ -8,6 +8,7 @@ interface QuantityAdjusterProps {
     onIncrease: () => void;
 }
 
+
 const QuantityAdjuster: React.FC<QuantityAdjusterProps> = ({ quantity, stock, onIncrease, onDecrease }) => {
   return (
     <div className="flex items-center mb-4">
