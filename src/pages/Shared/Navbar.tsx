@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   const cartItemCount = cartItems.length;
   
   // Calculate the subtotal
-  const cartSubtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const cartSubtotal = cartItems.reduce((total, item) => total + item.price * item.cartQuantity, 0);
 
   // Reusable NavLink component
   const CustomNavLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
