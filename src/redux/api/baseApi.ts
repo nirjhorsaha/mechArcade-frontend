@@ -27,9 +27,10 @@ export const baseApi = createApi({
         }),
         addProduct: builder.mutation({
             query: (product) => ({
-                url: "/product",
-                method: "POST",
-                body: product,
+                    url: "/product",
+                    method: "POST",
+                    body: product,
+                
             }),
             invalidatesTags: ["products"],
         }),
