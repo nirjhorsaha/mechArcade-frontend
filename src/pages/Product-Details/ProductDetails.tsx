@@ -1,3 +1,4 @@
+// components/ProductDetails.tsx
 import React, { useState, useEffect } from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart } from 'react-icons/fa';
 import Breadcrumbs from '../../components/ui/Breadcrumbs';
@@ -31,10 +32,8 @@ const ProductDetails: React.FC = () => {
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
-    if (product && !isInCart) {
-      setQty(1);
-    } else if (cartItem) {
-      setQty(cartItem.quantity);
+    if (product) {
+      setQty(isInCart ? cartItem?.cartQuantity || 1 : 1);
     }
   }, [product, isInCart, cartItem]);
 
@@ -49,13 +48,16 @@ const ProductDetails: React.FC = () => {
   const handleAddToCart = () => {
     if (product) {
       if (!isInCart) {
-        dispatch(addToCart({ ...product, quantity: qty }));
+        dispatch(addToCart({ 
+       ...product,
+          cartQuantity: qty, // Quantity in cart
+        }));
         toast.success('Product added to cart!');
-      } else if (cartItem && cartItem.quantity < product.quantity) {
-        dispatch(updateQuantity({ id: product._id, quantity: cartItem.quantity + 1 }));
-        toast.error('Product already in cart!');
+      } else if (cartItem && cartItem.cartQuantity < product.quantity) {
+        dispatch(updateQuantity({ id: product._id, quantity: cartItem.cartQuantity + 1 }));
+        toast.success('Product quantity increased!');
       } else {
-        // toast.error('Product already in cart!');
+        toast.error('No more stock available!');
       }
     }
   };
@@ -63,7 +65,7 @@ const ProductDetails: React.FC = () => {
   const handleIncrease = () => {
     if (qty < product.quantity) {
       const newQty = qty + 1;
-      setQty(qty + 1);
+      setQty(newQty);
       dispatch(updateQuantity({ id: product._id, quantity: newQty }));
       toast.success('Product quantity increased!');
     } else {
@@ -74,7 +76,7 @@ const ProductDetails: React.FC = () => {
   const handleDecrease = () => {
     if (qty > 1) {
       const newQty = qty - 1;
-      setQty(qty - 1);
+      setQty(newQty);
       dispatch(updateQuantity({ id: product._id, quantity: newQty }));
     }
   };
@@ -164,7 +166,7 @@ const ProductDetails: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-700">{review.review}</p>
+                <p>{review.review}</p>
               </div>
             ))}
           </div>
