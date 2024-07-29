@@ -1,59 +1,34 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { FaCreditCard, FaShippingFast } from 'react-icons/fa';
+import { RootState } from '@/redux/store';
+import { clearCart } from '@/redux/feature/CartSlice';
 
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  brand: string;
-  description: string;
-  quantity: number;
-  rating: number;
-  isDeleted: boolean;
-  inStock: boolean;
-}
-
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
 
 const Checkout: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cart = useSelector((state: RootState) => state.cart.items);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     address: '',
-    paymentMethod: 'Cash On Delivery'
+    paymentMethod: 'Cash On Delivery',
   });
-  const [cart, setCart] = useState<CartItem[]>([
-    {
-      product: {
-        _id: '1',
-        name: 'Mechanical Keyboard',
-        price: 99.99,
-        brand: 'Brand A',
-        description: 'High-quality mechanical keyboard',
-        quantity: 10,
-        rating: 4.5,
-        isDeleted: false,
-        inStock: true
-      },
-      quantity: 1
-    }
-  ]);
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-    const shipping = 40; // Replace with actual shipping calculation
-    const taxes = subtotal * 0.1; // Example tax rate
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
+    const shipping = 40; // Static shipping cost for example
+    const taxes = shipping * 0.3; // 10% tax
     return {
       subtotal,
       shipping,
       taxes,
-      total: subtotal + shipping + taxes
+      total: subtotal + shipping + taxes,
     };
   };
 
@@ -61,16 +36,43 @@ const Checkout: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle order placement logic here
-    alert('Order placed successfully!');
+
+    // Prepare order data
+    const orderData = {
+      ...formData,
+      cartItems: cart,
+      totalAmount: total,
+    };
+
+    try {
+      // API call for order placement
+      const response = await fetch('https://your-backend-api.com/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Order placement failed');
+      }
+
+      alert('Order placed successfully!');
+      dispatch(clearCart()); // Clear cart in Redux store
+      navigate('/order-success'); // Redirect to order success page
+    } catch (error) {
+      console.error('Order placement failed:', error);
+      alert('Failed to place order. Please try again later.');
+    }
   };
 
   return (
@@ -83,7 +85,6 @@ const Checkout: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-gray-800">Shipping Address</h1>
           </div>
           <p className="text-gray-600 mb-4">Fill in the form below to complete your purchase</p>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className="block text-gray-700">
               <span className="text-lg font-medium">First Name:</span>
@@ -141,7 +142,6 @@ const Checkout: React.FC = () => {
               />
             </label>
           </div>
-          
           <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg border border-gray-200 mt-6">
             <div className="flex items-center mb-4">
               <FaCreditCard className="text-3xl text-blue-600 mr-2" />
