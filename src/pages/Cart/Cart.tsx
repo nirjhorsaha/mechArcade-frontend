@@ -1,20 +1,21 @@
+// components/Cart.tsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaTrash, FaShoppingCart } from 'react-icons/fa';
 import { RootState } from '@/redux/store';
-import { removeFromCart, increaseQuantity, decreaseQuantity } from '@/redux/feature/CartSlice';
+import { removeFromCart, updateQuantity } from '@/redux/feature/CartSlice';
 import QuantityAdjuster from '../Shared/QuantityAdjuster';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.items);
 
-  const handleQuantityChange = (id: string, increase: boolean) => {
+  const handleQuantityChange = (id: string, increase: boolean, value: number) => {
     if (increase) {
-      dispatch(increaseQuantity(id));
+      dispatch(updateQuantity({ id: id, quantity: value + 1 }));
     } else {
-      dispatch(decreaseQuantity(id));
+      dispatch(updateQuantity({ id: id, quantity: value - 1 }));
     }
   };
 
@@ -23,9 +24,9 @@ const Cart: React.FC = () => {
   };
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
     const shipping = cart.length > 0 ? 40 : 0;
-    const taxes = shipping * 0.3;
+    const taxes = shipping * 0.3; 
     return {
       subtotal,
       shipping,
@@ -55,7 +56,7 @@ const Cart: React.FC = () => {
                   <th className="p-4 text-left">Brand</th>
                   <th className="p-4 text-left">Price</th>
                   <th className="p-4 text-left">Quantity</th>
-                  <th className="p-4 text-left">Amount</th>
+                  <th className="p-4 text-left">Total</th>
                   <th className="p-4 text-left">Action</th>
                 </tr>
               </thead>
@@ -68,13 +69,13 @@ const Cart: React.FC = () => {
                     <td className="p-4 text-gray-600">${item.price.toFixed(2)}</td>
                     <td className="p-4">
                       <QuantityAdjuster
-                        quantity={item.quantity}
+                        quantity={item.cartQuantity}
                         stock={item.stock}
-                        onIncrease={() => handleQuantityChange(item._id, true)}
-                        onDecrease={() => handleQuantityChange(item._id, false)}
+                        onIncrease={() => handleQuantityChange(item._id, true, item.cartQuantity)}
+                        onDecrease={() => handleQuantityChange(item._id, false, item.cartQuantity)}
                       />
                     </td>
-                    <td className="p-4 text-gray-800">${(item.price * item.quantity).toFixed(2)}</td>
+                    <td className="p-4 text-gray-800">${(item.price * item.cartQuantity).toFixed(2)}</td>
                     <td className="p-4">
                       <button
                         onClick={() => removeItem(item._id)}
@@ -90,7 +91,7 @@ const Cart: React.FC = () => {
             </table>
             <div className="md:hidden flex flex-col gap-4">
               {cart.map((item, index) => (
-                <div key={item._id} className="bg-gray-100 p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
+                <div key={item._id} className=" p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
                     <h2 className="text-lg font-bold text-gray-800">{`${index + 1}. ${item.name}`}</h2>
                     <button
@@ -104,12 +105,12 @@ const Cart: React.FC = () => {
                   <p className="text-gray-600">Brand: {item.brand}</p>
                   <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
                   <QuantityAdjuster
-                    quantity={item.quantity}
+                    quantity={item.cartQuantity}
                     stock={item.stock}
-                    onDecrease={() => handleQuantityChange(item._id, false)}
-                    onIncrease={() => handleQuantityChange(item._id, true)}
+                    onIncrease={() => handleQuantityChange(item._id, true, item.cartQuantity)}
+                    onDecrease={() => handleQuantityChange(item._id, false, item.cartQuantity)}
                   />
-                  <p className="text-lg font-bold text-gray-800">Total: ${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-800">Total: ${(item.price * item.cartQuantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
