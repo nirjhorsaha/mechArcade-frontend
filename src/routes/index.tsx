@@ -8,6 +8,7 @@ import Home from "@/pages/Home/Home";
 import ProductDetails from "@/pages/Product-Details/ProductDetails";
 import Products from "@/pages/Products/Products";
 import Notfound from "@/pages/Shared/Notfound";
+import SuccessPage from "@/pages/SuccessPage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([{
@@ -45,6 +46,10 @@ const router = createBrowserRouter([{
     {
       path: "/checkout",
       element: <Checkout/>
+    },
+    {
+      path: '/success',
+      element: <SuccessPage/>
     },
     {
       path: "*",
