@@ -1,5 +1,6 @@
 import { Product } from '@/types';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { FiX } from 'react-icons/fi';
 
 interface UpdateProductModalProps {
@@ -17,12 +18,22 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setUpdatedProduct((prev) => ({ ...prev, [name]: value }));
+  
+    // Convert numeric fields to numbers
+    const parsedValue =
+      name === 'price' || name === 'quantity' || name === 'rating'
+        ? parseFloat(value)
+        : value;
+  
+    setUpdatedProduct((prev) => ({ ...prev, [name]: parsedValue }));
   };
+  
 
   const handleSubmit = (e: React.FormEvent) => {
+    console.log(updatedProduct)
     e.preventDefault();
     onSave(updatedProduct);
+    toast.success('Product updated successfully!');
   };
 
   return (
@@ -92,7 +103,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
           />
           <input
             type="text"
-            name="image"
+            name="imageUrl"
             value={updatedProduct.imageUrl}
             onChange={handleChange}
             placeholder="Image URL"
