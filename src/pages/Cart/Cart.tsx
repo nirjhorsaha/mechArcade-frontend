@@ -2,10 +2,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FaTrash, FaShoppingCart } from 'react-icons/fa';
+import { FaTrash, FaShoppingCart, FaCreditCard } from 'react-icons/fa';
 import { RootState } from '@/redux/store';
 import { removeFromCart, updateQuantity } from '@/redux/feature/CartSlice';
 import QuantityAdjuster from '../Shared/QuantityAdjuster';
+import OrderSummary from '../Shared/OrderSummary';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -64,21 +65,21 @@ const Cart: React.FC = () => {
                 {cart.map((item, index) => (
                   <tr key={item._id} className="border-b hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-gray-700">{index + 1}</td>
-                    <td className="p-4 text-gray-800">{item.name}</td>
-                    <td className="p-4 text-gray-600">{item.brand}</td>
-                    <td className="p-4 text-gray-600">${item.price.toFixed(2)}</td>
+                    <td className="p-4 text-gray-800">{item?.name}</td>
+                    <td className="p-4 text-gray-600">{item?.brand}</td>
+                    <td className="p-4 text-gray-600">${item?.price.toFixed(2)}</td>
                     <td className="p-4">
                       <QuantityAdjuster
                         quantity={item.cartQuantity}
                         stock={item.stock}
-                        onIncrease={() => handleQuantityChange(item._id, true, item.cartQuantity)}
-                        onDecrease={() => handleQuantityChange(item._id, false, item.cartQuantity)}
+                        onIncrease={() => handleQuantityChange(item?._id, true, item.cartQuantity)}
+                        onDecrease={() => handleQuantityChange(item?._id, false, item.cartQuantity)}
                       />
                     </td>
                     <td className="p-4 text-gray-800">${(item.price * item.cartQuantity).toFixed(2)}</td>
                     <td className="p-4">
                       <button
-                        onClick={() => removeItem(item._id)}
+                        onClick={() => removeItem(item?._id)}
                         className="text-red-600 hover:text-red-800"
                         aria-label={`Remove ${item.name} from cart`}
                       >
@@ -93,7 +94,7 @@ const Cart: React.FC = () => {
               {cart.map((item, index) => (
                 <div key={item._id} className=" p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-bold text-gray-800">{`${index + 1}. ${item.name}`}</h2>
+                    <h2 className="text-lg font-bold text-gray-800">{`${index + 1}. ${item?.name}`}</h2>
                     <button
                       onClick={() => removeItem(item._id)}
                       className="text-red-600 hover:text-red-800"
@@ -101,14 +102,16 @@ const Cart: React.FC = () => {
                     >
                       <FaTrash aria-hidden="true" />
                     </button>
+                    
+                    
                   </div>
                   <p className="text-gray-600">Brand: {item.brand}</p>
                   <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
                   <QuantityAdjuster
                     quantity={item.cartQuantity}
                     stock={item.stock}
-                    onIncrease={() => handleQuantityChange(item._id, true, item.cartQuantity)}
-                    onDecrease={() => handleQuantityChange(item._id, false, item.cartQuantity)}
+                    onIncrease={() => handleQuantityChange(item?._id, true, item.cartQuantity)}
+                    onDecrease={() => handleQuantityChange(item?._id, false, item.cartQuantity)}
                   />
                   <p className="text-lg font-bold text-gray-800">Total: ${(item.price * item.cartQuantity).toFixed(2)}</p>
                 </div>
@@ -118,7 +121,7 @@ const Cart: React.FC = () => {
         )}
       </div>
       <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg border border-gray-200 w-full md:w-80 self-end">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">Order Summary</h2>
+        {/* <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">Order Summary</h2>
         <div className="space-y-2 mb-6">
           <div className="flex justify-between">
             <span className="text-base md:text-lg font-medium text-gray-700">Subtotal:</span>
@@ -136,14 +139,21 @@ const Cart: React.FC = () => {
             <span className="text-lg md:text-xl font-bold text-gray-800">Total:</span>
             <span className="text-lg md:text-xl font-bold text-gray-800">${total.toFixed(2)}</span>
           </div>
-        </div>
+        </div> */}
+        <OrderSummary
+          subtotal={subtotal}
+          shipping={shipping}
+          taxes={taxes}
+          total={total}
+        />
         <Link to="/checkout">
-          <button
-            className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out"
-          >
-            Proceed to Checkout
-          </button>
-        </Link>
+      <button
+        className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
+      >
+        <FaCreditCard />
+        Proceed to Checkout
+      </button>
+    </Link>
       </div>
     </div>
   );

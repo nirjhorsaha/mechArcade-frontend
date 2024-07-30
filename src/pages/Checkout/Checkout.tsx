@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { FaCreditCard, FaShippingFast } from 'react-icons/fa';
-import { RootState } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useUpdateProductMutation } from '@/redux/api/baseApi';
 import { clearCart } from '@/redux/feature/CartSlice';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import OrderSummary from '../Shared/OrderSummary';
 
 
 const Checkout: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.items); // Select cart items from the state
+  const [updateProduct] = useUpdateProductMutation();
   const navigate = useNavigate();
-  const cart = useSelector((state: RootState) => state.cart.items);
+
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -21,8 +25,8 @@ const Checkout: React.FC = () => {
   });
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
-    const shipping = 40; // Static shipping cost for example
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
+    const shipping = 40; // Static shipping cost 
     const taxes = shipping * 0.3; // 10% tax
     return {
       subtotal,
@@ -44,34 +48,30 @@ const Checkout: React.FC = () => {
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Prepare order data
-    const orderData = {
-      ...formData,
-      cartItems: cart,
-      totalAmount: total,
-    };
-
+    if (formData.paymentMethod === 'Stripe') {
+      // Prevent Stripe payment and show a message
+      toast.error('Stripe payment are currently not accepted.! Please select Cash On Delivery.');
+      return; // Stop further execution
+    }
     try {
-      // API call for order placement
-      const response = await fetch('https://your-backend-api.com/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      });
+      // Update stock for each product in the cart
+      await Promise.all(
+        cartItems.map((item) =>
+          updateProduct({
+            id: item?._id,
+            product: { quantity: item.quantity - item.cartQuantity }, // Deduct quantity from stock
+          }).unwrap()
+        )
+      );
 
-      if (!response.ok) {
-        throw new Error('Order placement failed');
-      }
+      // Clear cart after successful order
+      dispatch(clearCart());
 
-      alert('Order placed successfully!');
-      dispatch(clearCart()); // Clear cart in Redux store
-      navigate('/order-success'); // Redirect to order success page
+      // Redirect to success page
+      navigate('/success');
     } catch (error) {
-      console.error('Order placement failed:', error);
-      alert('Failed to place order. Please try again later.');
+      console.error('Failed to place order:', error);
+      toast.error('Failed to place order')
     }
   };
 
@@ -157,15 +157,15 @@ const Checkout: React.FC = () => {
                 required
               >
                 <option value="Cash On Delivery">Cash On Delivery</option>
-                <option value="Stripe" disabled>Stripe (Not available)</option>
+                <option value="Stripe">Stripe</option>
               </select>
             </label>
           </div>
         </div>
 
         {/* Order Summary Box */}
-        <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg border border-gray-200 w-full md:w-80">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Order Summary</h2>
+        <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg border border-gray-200 w-full md:w-80 self-start">
+          {/* <h2 className="text-2xl font-bold text-gray-800 mb-4">Order Summary</h2>
           <div className="space-y-2 mb-6">
             <div className="flex justify-between">
               <span className="text-lg font-medium text-gray-700">Subtotal:</span>
@@ -183,7 +183,13 @@ const Checkout: React.FC = () => {
               <span className="text-xl font-bold text-gray-800">Total:</span>
               <span className="text-xl font-bold text-gray-800">${total.toFixed(2)}</span>
             </div>
-          </div>
+          </div> */}
+          <OrderSummary
+            subtotal={subtotal}
+            shipping={shipping}
+            taxes={taxes}
+            total={total}
+          />
           <button
             type="submit"
             className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700"
