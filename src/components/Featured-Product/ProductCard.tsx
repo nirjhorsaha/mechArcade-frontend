@@ -9,9 +9,9 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div key={product._id} className="group bg-white overflow-hidden rounded-lg shadow-md hover:shadow-lg transition" data-aos="zoom-in">
-      <figure className="relative max-h-72 overflow-hidden">
+      <figure className="relative w-full aspect-w-1 aspect-h-1 overflow-hidden">
         <img
-          className="w-full h-full object-cover transform transition duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           src={product.imageUrl}
           alt={product.name}
         />
