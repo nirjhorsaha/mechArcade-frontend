@@ -2,35 +2,34 @@ import logo from '../../assets/logo.png';
 
 const Footer = () => {
   return (
-    <footer className="footer bg-base-200 text-base-content p-10 my-10 rounded-lg ">
+    <footer className="footer bg-base-200 text-base-content p-10 my-10 rounded-lg">
       <aside className='mx-auto lg:mx-0 lg:my-auto '>
         <img src={logo} alt="Logo" className="h-24 lg:h-32 lg:ml-2 " />
       </aside>
       <nav className="mb-6 lg:mb-0">
-            <h6 className="footer-title text-2xl font-bold mb-4 textblack">Services</h6>
-            <ul className="space-y-2">
-              <li><a href="/services/branding" className=" text-black hover:text-blue-600 transition duration-300 ">Branding</a></li>
-              <li><a href="/services/design" className=" text-black hover:text-blue-600 transition duration-300">Design</a></li>
-              <li><a href="/services/marketing" className=" text-black hover:text-blue-600 transition duration-300">Marketing</a></li>
-              <li><a href="/services/advertisement" className=" text-black hover:text-blue-600 transition duration-300">Advertisement</a></li>
-            </ul>
-          </nav>
-          <nav className="mb-6 lg:mb-0">
-            <h6 className="footer-title text-2xl font-bold mb-4 text-black">Company</h6>
-            <ul className="space-y-2">
-              <li><a href="/about" className=" text-black hover:text-blue-600 transition duration-300">About us</a></li>
-              <li><a href="/contact" className=" text-black hover:text-blue-600 transition duration-300">Contact</a></li>
-        
-            </ul>
-          </nav>
+        <h6 className="footer-title text-2xl font-bold mb-4 textblack">Services</h6>
+        <ul className="space-y-2">
+          <li><a href="/products" className=" text-black hover:text-blue-600 transition duration-300 ">Product</a></li>
+          <li><a href="/dashboard" className=" text-black hover:text-blue-600 transition duration-300">Dashboard</a></li>
 
-          <nav className="mb-6 lg:mb-0">
-            <h6 className="footer-title text-2xl font-bold mb-4 text-black">Legal</h6>
-            <ul className="space-y-2">
-              <li><a href="/terms" className=" text-black hover:text-blue-600 transition duration-300">Terms of use</a></li>
-              <li><a href="/privacy" className=" text-black hover:text-blue-600 transition duration-300">Privacy policy</a></li>
-            </ul>
-          </nav>
+        </ul>
+      </nav>
+      <nav className="mb-6 lg:mb-0">
+        <h6 className="footer-title text-2xl font-bold mb-4 text-black">Company</h6>
+        <ul className="space-y-2">
+          <li><a href="/about" className=" text-black hover:text-blue-600 transition duration-300">About us</a></li>
+          <li><a href="/contact" className=" text-black hover:text-blue-600 transition duration-300">Contact</a></li>
+
+        </ul>
+      </nav>
+
+      <nav className="mb-6 lg:mb-0">
+        <h6 className="footer-title text-2xl font-bold mb-4 text-black">Legal</h6>
+        <ul className="space-y-2">
+          <li><a href="/terms" className=" text-black hover:text-blue-600 transition duration-300">Terms of use</a></li>
+          <li><a href="/privacy" className=" text-black hover:text-blue-600 transition duration-300">Privacy policy</a></li>
+        </ul>
+      </nav>
       <nav>
         <h6 className="footer-title text-2xl font-bold mb-4 text-black">Social</h6>
         <div className="grid grid-flow-col gap-4 ">
@@ -67,6 +66,7 @@ const Footer = () => {
                 d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
             </svg>
           </a>
+
         </div>
       </nav>
     </footer>
