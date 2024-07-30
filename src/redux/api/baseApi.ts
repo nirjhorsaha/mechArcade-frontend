@@ -12,10 +12,21 @@ export const baseApi = createApi({
     tagTypes: ["products"],
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: () => ({
-                url: "/product",
-                method: "GET",
-            }),
+            query: (params) => {
+                const queryString = params
+                    ? new URLSearchParams(params).toString()
+                    : "";
+                const url = queryString
+                    ? `/product?${queryString}`
+                    : "/product";
+
+                console.log("Fetching URL:", url); // For debugging
+
+                return {
+                    url: `/product?${queryString}`,
+                    method: "GET",
+                };
+            },
             providesTags: ["products"],
         }),
         getSingleProduct: builder.query({
@@ -27,21 +38,20 @@ export const baseApi = createApi({
         }),
         addProduct: builder.mutation({
             query: (product) => ({
-                    url: "/product",
-                    method: "POST",
-                    body: product,
-                
+                url: "/product",
+                method: "POST",
+                body: product,
             }),
             invalidatesTags: ["products"],
         }),
         updateProduct: builder.mutation({
             query: ({ id, product }) => ({
-              url: `product/${id}`,
-              method: 'PATCH',
-              body: product,
+                url: `product/${id}`,
+                method: "PATCH",
+                body: product,
             }),
-            invalidatesTags: ['products'],
-          }),
+            invalidatesTags: ["products"],
+        }),
         deleteProduct: builder.mutation({
             query: (id) => ({
                 url: `product/${id}`,
