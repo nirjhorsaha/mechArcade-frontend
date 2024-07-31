@@ -14,6 +14,9 @@ import toast from 'react-hot-toast';
 import reviews from './productReviews.json';
 import Loading from '@/components/ui/loading';
 import QuantityAdjuster from '../Shared/QuantityAdjuster';
+import 'aos/dist/aos.css'; // Import AOS styles
+import AOS from 'aos';
+
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams();
@@ -37,6 +40,13 @@ const ProductDetails: React.FC = () => {
     }
   }, [product, isInCart, cartItem]);
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Duration of animations
+      once: true, // Animation happens only once
+    });
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -44,6 +54,7 @@ const ProductDetails: React.FC = () => {
   if (error) {
     return <ErrorComponent message="Error fetching products. Please try again later." />;
   }
+
 
   const handleAddToCart = () => {
     if (product) {
@@ -147,8 +158,11 @@ const ProductDetails: React.FC = () => {
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
           <div className="space-y-4">
-            {reviews.map(review => (
-              <div key={review.id} className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gray-50">
+            {reviews.map((review, index) => (
+              <div key={review.id}
+                className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gray-50"
+                data-aos="fade-right" data-aos-delay={`${index * 100}`}
+              >
                 <div className="flex items-center mb-2">
                   <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full mr-4" />
                   <div>
