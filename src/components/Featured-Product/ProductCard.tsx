@@ -9,7 +9,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div key={product?._id} className="group bg-white overflow-hidden rounded-lg shadow-md hover:shadow-lg transition" data-aos="zoom-in">
-      <figure className="relative w-full aspect-w-1 aspect-h-1 overflow-hidden">
+      <figure className="relative w-full md:h-64 aspect-w-1 aspect-h-1 overflow-hidden">
         <img
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           src={product?.imageUrl}
@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               }
             })}
           </span>
-          <span className="ml-1 text-black">{product?.rating.toFixed(1)}</span>
+          <span className="ml-2 text-black font-mono">{product?.rating.toFixed(1)}</span>
         </div>
         <Link
           to={`/product/${product?._id}`}

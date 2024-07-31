@@ -26,7 +26,7 @@ const Checkout: React.FC = () => {
 
   const calculateTotals = () => {
     const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
-    const shipping = 40; // Static shipping cost 
+    const shipping = cartItems.length>0 ? 40 : 0; // Static shipping cost 
     const taxes = shipping * 0.3; // 10% tax
     return {
       subtotal,
