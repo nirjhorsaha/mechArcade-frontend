@@ -17,19 +17,18 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-  
+
     // Convert numeric fields to numbers
     const parsedValue =
       name === 'price' || name === 'quantity' || name === 'rating'
         ? parseFloat(value)
         : value;
-  
+
     setUpdatedProduct((prev) => ({ ...prev, [name]: parsedValue }));
   };
-  
+
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(updatedProduct)
     e.preventDefault();
     onSave(updatedProduct);
 
