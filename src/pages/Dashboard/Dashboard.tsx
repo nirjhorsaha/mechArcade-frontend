@@ -77,11 +77,11 @@ const Dashboard: React.FC = () => {
           </thead>
           <tbody>
             {products && products.map((product: Product, index: number) => (
-              <tr key={product._id} className="border-b hover:bg-gray-100 transition-colors duration-200">
+              <tr key={product?._id} className="border-b hover:bg-gray-100 transition-colors duration-200">
                 <td className="py-2 px-4">{index + 1}</td>
-                <td className="py-2 px-4">{product.name}</td>
-                <td className="py-2 px-4">${product.price.toFixed(2)}</td>
-                <td className="py-2 px-4">{product.brand}</td>
+                <td className="py-2 px-4">{product?.name}</td>
+                <td className="py-2 px-4">${product?.price.toFixed(2)}</td>
+                <td className="py-2 px-4">{product?.brand}</td>
                 <td className="py-2 px-4 flex items-center space-x-2">
                   <button
                     onClick={() => openUpdateModal(product)}
@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
           product={selectedProduct}
           onClose={() => setIsUpdateModalOpen(false)}
           onSave={(updatedProduct: Product) => {
-            updateProduct({ id: updatedProduct._id, product: updatedProduct });
+            updateProduct({ id: updatedProduct?._id, product: updatedProduct });
             setIsUpdateModalOpen(false);
           }}
         />

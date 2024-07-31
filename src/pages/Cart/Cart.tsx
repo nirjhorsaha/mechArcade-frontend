@@ -13,21 +13,30 @@ const Cart: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart.items);
 
   const handleQuantityChange = (id: string, increase: boolean, value: number) => {
+    const item = cart.find(item => item?._id === id);
+    console.log(item?.quantity)
+    if (!item) return;
+
     if (increase) {
-      dispatch(updateQuantity({ id: id, quantity: value + 1 }));
+      if (value + 1 <= item.quantity) {
+        dispatch(updateQuantity({ id: id, quantity: value + 1 }));
+      }
     } else {
-      dispatch(updateQuantity({ id: id, quantity: value - 1 }));
+      if (value - 1 >= 1) {
+        dispatch(updateQuantity({ id: id, quantity: value - 1 }));
+      }
     }
   };
+
 
   const removeItem = (id: string) => {
     dispatch(removeFromCart(id));
   };
 
   const calculateTotals = () => {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
+    const subtotal = cart.reduce((sum, item) => sum + item?.price * item?.cartQuantity, 0);
     const shipping = cart.length > 0 ? 40 : 0;
-    const taxes = shipping * 0.3; 
+    const taxes = shipping * 0.3;
     return {
       subtotal,
       shipping,
@@ -45,7 +54,7 @@ const Cart: React.FC = () => {
           <FaShoppingCart className="text-3xl md:text-4xl text-blue-600 mr-2" aria-hidden="true" />
           <h1 className="text-2xl md:text-3xl font-extrabold text-gray-800">Your Cart</h1>
         </div>
-        {cart.length === 0 ? (
+        {cart?.length === 0 ? (
           <p className="text-gray-600 text-lg text-center">No items added yet</p>
         ) : (
           <div className="overflow-x-auto">
@@ -62,26 +71,26 @@ const Cart: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item, index) => (
-                  <tr key={item._id} className="border-b hover:bg-gray-50 transition-colors">
+                {cart?.map((item, index) => (
+                  <tr key={item?._id} className="border-b hover:bg-gray-50 transition-colors">
                     <td className="p-4 text-gray-700">{index + 1}</td>
                     <td className="p-4 text-gray-800">{item?.name}</td>
                     <td className="p-4 text-gray-600">{item?.brand}</td>
                     <td className="p-4 text-gray-600">${item?.price.toFixed(2)}</td>
                     <td className="p-4">
                       <QuantityAdjuster
-                        quantity={item.cartQuantity}
+                        quantity={item?.cartQuantity}
                         stock={item.stock}
-                        onIncrease={() => handleQuantityChange(item?._id, true, item.cartQuantity)}
-                        onDecrease={() => handleQuantityChange(item?._id, false, item.cartQuantity)}
+                        onIncrease={() => handleQuantityChange(item?._id, true, item?.cartQuantity)}
+                        onDecrease={() => handleQuantityChange(item?._id, false, item?.cartQuantity)}
                       />
                     </td>
-                    <td className="p-4 text-gray-800">${(item.price * item.cartQuantity).toFixed(2)}</td>
+                    <td className="p-4 text-gray-800">${(item?.price * item?.cartQuantity).toFixed(2)}</td>
                     <td className="p-4">
                       <button
                         onClick={() => removeItem(item?._id)}
                         className="text-red-600 hover:text-red-800"
-                        aria-label={`Remove ${item.name} from cart`}
+                        aria-label={`Remove ${item?.name} from cart`}
                       >
                         <FaTrash aria-hidden="true" />
                       </button>
@@ -92,28 +101,28 @@ const Cart: React.FC = () => {
             </table>
             <div className="md:hidden flex flex-col gap-4">
               {cart.map((item, index) => (
-                <div key={item._id} className=" p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
+                <div key={item?._id} className=" p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
                     <h2 className="text-lg font-bold text-gray-800">{`${index + 1}. ${item?.name}`}</h2>
                     <button
-                      onClick={() => removeItem(item._id)}
+                      onClick={() => removeItem(item?._id)}
                       className="text-red-600 hover:text-red-800"
-                      aria-label={`Remove ${item.name} from cart`}
+                      aria-label={`Remove ${item?.name} from cart`}
                     >
                       <FaTrash aria-hidden="true" />
                     </button>
-                    
-                    
+
+
                   </div>
-                  <p className="text-gray-600">Brand: {item.brand}</p>
-                  <p className="text-gray-600">Price: ${item.price.toFixed(2)}</p>
+                  <p className="text-gray-600">Brand: {item?.brand}</p>
+                  <p className="text-gray-600">Price: ${item?.price.toFixed(2)}</p>
                   <QuantityAdjuster
-                    quantity={item.cartQuantity}
+                    quantity={item?.cartQuantity}
                     stock={item.stock}
-                    onIncrease={() => handleQuantityChange(item?._id, true, item.cartQuantity)}
-                    onDecrease={() => handleQuantityChange(item?._id, false, item.cartQuantity)}
+                    onIncrease={() => handleQuantityChange(item?._id, true, item?.cartQuantity)}
+                    onDecrease={() => handleQuantityChange(item?._id, false, item?.cartQuantity)}
                   />
-                  <p className="text-lg font-bold text-gray-800">Total: ${(item.price * item.cartQuantity).toFixed(2)}</p>
+                  <p className="text-lg font-bold text-gray-800">Total: ${(item?.price * item?.cartQuantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
@@ -147,13 +156,13 @@ const Cart: React.FC = () => {
           total={total}
         />
         <Link to="/checkout">
-      <button
-        className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
-      >
-        <FaCreditCard />
-        Proceed to Checkout
-      </button>
-    </Link>
+          <button
+            className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
+          >
+            <FaCreditCard />
+            Proceed to Checkout
+          </button>
+        </Link>
       </div>
     </div>
   );

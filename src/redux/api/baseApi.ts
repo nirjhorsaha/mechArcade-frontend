@@ -16,11 +16,11 @@ export const baseApi = createApi({
                 const queryString = params
                     ? new URLSearchParams(params).toString()
                     : "";
-                const url = queryString
-                    ? `/product?${queryString}`
-                    : "/product";
-
-                console.log("Fetching URL:", url); // For debugging
+                
+                // const url = queryString
+                //     ? `/product?${queryString}`
+                //     : "/product";
+                // console.log("Fetching URL:", url); // For debugging
 
                 return {
                     url: `/product?${queryString}`,

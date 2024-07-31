@@ -170,7 +170,7 @@
 // export default Products;
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { GridLoader } from 'react-spinners';
@@ -196,38 +196,53 @@ const Products = () => {
     AOS.init({ duration: 1000 });
   }, []);
 
-  const buildQueryParams = ({
-    searchTerm,
-    minPrice,
-    maxPrice,
-    sortOption,
-  }: {
-    searchTerm: string;
-    minPrice: number;
-    maxPrice: number;
-    sortOption: 'asc' | 'desc' | null;
-  }) => {
-    const params: { [key: string]: string | number } = {};
+  // const buildQueryParams = ({
+  //   searchTerm,
+  //   minPrice,
+  //   maxPrice,
+  //   sortOption,
+  // }: {
+  //   searchTerm: string;
+  //   minPrice: number;
+  //   maxPrice: number;
+  //   sortOption: 'asc' | 'desc' | null;
+  // }) => {
+  //   const params: { [key: string]: string | number } = {};
     
-    if (searchTerm) params.searchTerm = searchTerm;
-    if (minPrice !== null) params.minPrice = minPrice;
-    if (maxPrice !== null) params.maxPrice = maxPrice;
-    if (sortOption) params.sort = sortOption === 'asc' ? '-price' : 'price';
+  //   if (searchTerm) params.searchTerm = searchTerm;
+  //   if (minPrice !== null) params.minPrice = minPrice;
+  //   if (maxPrice !== null) params.maxPrice = maxPrice;
+  //   if (sortOption) params.sort = sortOption === 'asc' ? '-price' : 'price';
     
-    return params;
-  };
+  //   return params;
+  // };
 
   
-  // Update query params based on user actions
-  useEffect(() => {
-    const newParams = buildQueryParams({
-      searchTerm: debouncedSearchTerm,
-      minPrice: priceRange[0],
-      maxPrice: priceRange[1],
-      sortOption,
-    });
-    setParams(newParams);
+  // // Update query params based on user actions
+  // useEffect(() => {
+  //   const newParams = buildQueryParams({
+  //     searchTerm: debouncedSearchTerm,
+  //     minPrice: priceRange[0],
+  //     maxPrice: priceRange[1],
+  //     sortOption,
+  //   });
+  //   setParams(newParams);
+  // }, [debouncedSearchTerm, priceRange, sortOption]);
+
+  const buildQueryParams = useCallback(() => {
+    const params: { [key: string]: string | number } = {};
+
+    if (debouncedSearchTerm) params.searchTerm = debouncedSearchTerm;
+    if (priceRange[0] !== null) params.minPrice = priceRange[0];
+    if (priceRange[1] !== null) params.maxPrice = priceRange[1];
+    if (sortOption) params.sort = sortOption === 'asc' ? '-price' : 'price';
+
+    return params;
   }, [debouncedSearchTerm, priceRange, sortOption]);
+
+  useEffect(() => {
+    setParams(buildQueryParams());
+  }, [buildQueryParams]);
 
   const { data, error, isLoading } = useGetProductsQuery(params);
 

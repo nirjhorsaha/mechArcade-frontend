@@ -43,7 +43,7 @@ const cartSlice = createSlice({
             const item = state.items.find(
                 (item) => item._id === action.payload,
             );
-            if (item && item.quantity < item.stock) {  // ensure stock limit
+            if (item && item?.quantity < item?.stock) {  // ensure stock limit
                 item.quantity += 1;
             }
         },
@@ -51,7 +51,7 @@ const cartSlice = createSlice({
             const item = state.items.find(
                 (item) => item._id === action.payload,
             );
-            if (item && item.quantity > 1) {
+            if (item && item?.quantity > 1) {
                 item.quantity -= 1;
             }
         },

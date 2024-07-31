@@ -25,7 +25,7 @@ const FeaturedProduct = () => {
   const products = data?.data?.result;
   // console.log(products);
 
-  if (!products || products.length === 0) {
+  if (!products || products?.length === 0) {
     return <div>No products available</div>;
   }
 
