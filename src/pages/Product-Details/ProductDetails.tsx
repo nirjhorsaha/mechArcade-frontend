@@ -42,8 +42,8 @@ const ProductDetails: React.FC = () => {
 
   useEffect(() => {
     AOS.init({
-      duration: 1000, // Duration of animations
-      once: true, // Animation happens only once
+      duration: 1000,
+      once: true, 
     });
   }, []);
 
@@ -64,9 +64,9 @@ const ProductDetails: React.FC = () => {
           cartQuantity: qty, // Quantity in cart
         }));
         toast.success('Product added to cart!');
-      } else if (cartItem && cartItem.cartQuantity < product.quantity) {
-        dispatch(updateQuantity({ id: product._id, quantity: cartItem.cartQuantity + 1 }));
-        toast.success('Product quantity increased!');
+      } else if (cartItem && cartItem?.cartQuantity < product?.quantity) {
+        // dispatch(updateQuantity({ id: product._id, quantity: cartItem.cartQuantity + 1 }));
+        toast.success('Product already added in cart!');
       } else {
         toast.error('No more stock available!');
       }
@@ -74,11 +74,11 @@ const ProductDetails: React.FC = () => {
   };
 
   const handleIncrease = () => {
-    if (qty < product.quantity) {
+    if (qty < product?.quantity) {
       const newQty = qty + 1;
       setQty(newQty);
-      dispatch(updateQuantity({ id: product._id, quantity: newQty }));
-      toast.success('Product quantity increased!');
+      dispatch(updateQuantity({ id: product?._id, quantity: newQty }));
+      // toast.success('Product quantity increased!');
     } else {
       toast.error('No more stock available!');
     }
