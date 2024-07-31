@@ -14,6 +14,7 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([{
   path: "/",
   element: <MainLayout />,
+  errorElement: <Notfound />,
   children: [
     {
       index: true,
@@ -51,10 +52,10 @@ const router = createBrowserRouter([{
       path: '/success',
       element: <SuccessPage />
     },
-    {
-      path: "*",
-      element: <Notfound />,
-    },
+    // {
+    //   path: "*",
+    //   element: <Notfound />,
+    // },
   ],
 }]);
 
