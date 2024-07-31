@@ -7,10 +7,11 @@ import AddProductModal from '../../components/Modal/AddProductModal';
 import UpdateProductModal from '../../components/Modal/UpdateProductModal';
 import { useAddProductMutation, useDeleteProductMutation, useGetProductsQuery, useUpdateProductMutation } from '@/redux/api/baseApi';
 import toast from 'react-hot-toast';
+import Loading from '@/components/ui/loading';
 
 const Dashboard: React.FC = () => {
   const { data, error, isLoading } = useGetProductsQuery({});
-  
+
   const products = data?.data.result ?? [];
 
   const [addProduct] = useAddProductMutation();
@@ -47,7 +48,29 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  const handleUpdateProduct = async (updatedProduct: Product) => {
+    try {
+      await updateProduct({ id: updatedProduct._id, product: updatedProduct }).unwrap();
+      toast.success("Product updated successfully!");
+    } catch (error) {
+      toast.error("Error updating product!");
+    } finally {
+      setIsUpdateModalOpen(false);
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    try {
+      await deleteProduct(selectedProduct?._id).unwrap();
+      toast.success("Product deleted successfully!");
+    } catch (error) {
+      toast.error("Error deleting product!");
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  if (isLoading) return <Loading />;
   if (error) return <p>Error loading products!</p>;
 
   return (
@@ -105,20 +128,22 @@ const Dashboard: React.FC = () => {
         <UpdateProductModal
           product={selectedProduct}
           onClose={() => setIsUpdateModalOpen(false)}
-          onSave={(updatedProduct: Product) => {
-            updateProduct({ id: updatedProduct?._id, product: updatedProduct });
-            setIsUpdateModalOpen(false);
-          }}
+          // onSave={(updatedProduct: Product) => {
+          //   updateProduct({ id: updatedProduct?._id, product: updatedProduct });
+          //   setIsUpdateModalOpen(false);
+          // }}
+          onSave={handleUpdateProduct}
         />
       )}
       {isDeleteModalOpen && selectedProduct && (
         <DeleteProductModal
           product={selectedProduct}
           onClose={() => setIsDeleteModalOpen(false)}
-          onDelete={() => {
-            deleteProduct(selectedProduct?._id);
-            setIsDeleteModalOpen(false);
-          }}
+          // onDelete={() => {
+          //   deleteProduct(selectedProduct?._id);
+          //   setIsDeleteModalOpen(false);
+          // }}
+          onDelete={handleDeleteProduct}
         />
       )}
       {isAddModalOpen && (
