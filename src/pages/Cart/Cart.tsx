@@ -7,6 +7,7 @@ import { RootState } from '@/redux/store';
 import { removeFromCart, updateQuantity } from '@/redux/feature/CartSlice';
 import QuantityAdjuster from '../Shared/QuantityAdjuster';
 import OrderSummary from '../Shared/OrderSummary';
+import toast from 'react-hot-toast';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,11 +15,10 @@ const Cart: React.FC = () => {
 
   const handleQuantityChange = (id: string, increase: boolean, value: number) => {
     const item = cart.find(item => item?._id === id);
-    console.log(item?.quantity)
     if (!item) return;
 
     if (increase) {
-      if (value + 1 <= item.quantity) {
+      if (value + 1 <= item?.quantity) {
         dispatch(updateQuantity({ id: id, quantity: value + 1 }));
       }
     } else {
@@ -46,6 +46,13 @@ const Cart: React.FC = () => {
   };
 
   const { subtotal, shipping, taxes, total } = calculateTotals();
+
+  const handleCheckout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (cart.length === 0) {
+      e.preventDefault();
+      toast.error('Please add products to your cart before proceeding to checkout.');
+    }
+  };
 
   return (
     <div className="container mx-auto p-4 md:p-6 flex flex-col gap-6">
@@ -155,8 +162,8 @@ const Cart: React.FC = () => {
           taxes={taxes}
           total={total}
         />
-        <Link to="/checkout">
-          <button
+        <Link to={cart.length > 0 ? "/checkout" : "#"}>
+          <button onClick={handleCheckout}
             className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
           >
             <FaCreditCard />
