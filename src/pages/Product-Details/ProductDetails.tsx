@@ -48,8 +48,8 @@ const ProductDetails: React.FC = () => {
   const handleAddToCart = () => {
     if (product) {
       if (!isInCart) {
-        dispatch(addToCart({ 
-       ...product,
+        dispatch(addToCart({
+          ...product,
           cartQuantity: qty, // Quantity in cart
         }));
         toast.success('Product added to cart!');
@@ -104,9 +104,9 @@ const ProductDetails: React.FC = () => {
           </div>
           <div className="lg:ml-6 flex-1">
             <h1 className="text-3xl font-bold mb-2">{product?.name || 'Product Name'}</h1>
-            <h2 className="text-xl text-gray-600 mb-2 font-mono">{`Brand: ${product?.brand || 'Brand Name'}`}</h2>
-            <p className="bg-zinc-200 inline-block p-1 rounded-lg text-lg my-2 font-mono">{`Available Quantity: ${product?.quantity || 0}`}</p>
-            <p className="text-lg mb-4 font-mono">{`Price: $${product?.price || '0.00'}`}</p>
+            <h2 className="text-xl text-gray-600 mb-2">{`Brand: ${product?.brand || 'Brand Name'}`}</h2>
+            <p className="bg-zinc-200 inline-block p-1 rounded-lg text-lg my-2 ">{`Available Quantity: ${product?.quantity || 0}`}</p>
+            <p className="text-lg mb-4 ">{`Price: $${product?.price || '0.00'}`}</p>
             <div className="flex mb-4">
               {Array.from({ length: 5 }, (_, index) => {
                 if (index < fullStars) {
