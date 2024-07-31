@@ -13,7 +13,7 @@ const CustomerReview: React.FC = () => {
     <div className="bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-left mb-6">
-          <h2 className="text-3xl font-semibold text-blue-600 mb-1">Customer Reviews</h2>
+          <h2 className="text-3xl font-semibold text-blue-600 mb-1 tracking-wide">Customer Reviews</h2>
           <h3 className="text-lg font-medium text-gray-600">See what our customers are saying about us!</h3>
         </div>
         <Carousel autoplay>

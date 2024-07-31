@@ -1,6 +1,5 @@
 import { Product } from '@/types';
 import React, { useState } from 'react';
-import toast from 'react-hot-toast';
 import { FiX } from 'react-icons/fi';
 
 interface UpdateProductModalProps {
@@ -33,7 +32,7 @@ const UpdateProductModal: React.FC<UpdateProductModalProps> = ({
     console.log(updatedProduct)
     e.preventDefault();
     onSave(updatedProduct);
-    toast.success('Product updated successfully!');
+
   };
 
   return (

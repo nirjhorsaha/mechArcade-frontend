@@ -7,7 +7,7 @@ const CustomizableOptions: React.FC = () => {
         <div className="flex items-center mb-6">
           {/* <FiSettings className="text-blue-600 h-8 w-8 mr-2" /> */}
           <div>
-            <h2 className="text-3xl font-semibold text-blue-600">Customizable Options</h2>
+            <h2 className="text-3xl font-semibold text-blue-600 tracking-wide">Customizable Options</h2>
           </div>
         </div>
         <p className="text-lg text-gray-600 mb-5">Explore various customizable features of mechanical keyboards</p>

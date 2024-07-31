@@ -24,8 +24,12 @@ const Service = () => {
       {/* <div className=" p-6 rounded-lg shadow-md mt-10 max-w-7xl mx-auto"> */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-6">
-          <h2 className="text-4xl font-semibold text-blue-600 mb-1">Our Services</h2>
-          <h3 className="text-lg font-medium text-gray-600">Discover the range of services we offer to meet your needs!</h3>
+          <h2 className="text-4xl font-semibold text-blue-600 mb-1 tracking-wide">Our Services</h2>
+          <div className="flex items-center">
+            <hr className="flex-grow border-t-2 border-gray-300" />
+            <h3 className="mx-4 text-lg font-medium text-gray-600">Discover the range of services we offer to meet your needs!</h3>
+            <hr className="flex-grow border-t-2 border-gray-300" />
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
           {services.map(service => (

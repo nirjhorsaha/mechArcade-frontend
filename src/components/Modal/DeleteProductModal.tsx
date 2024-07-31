@@ -1,6 +1,5 @@
 import { Product } from '@/types';
 import React from 'react';
-import toast from 'react-hot-toast';
 import { FiX } from 'react-icons/fi';
 
 interface DeleteProductModalProps {
@@ -16,7 +15,6 @@ const DeleteProductModal: React.FC<DeleteProductModalProps> = ({
 }) => {
   const handleDelete = () => {
     onDelete();
-    toast.success('Product deleted successfully!');
   };
 
   return (
