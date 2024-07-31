@@ -5,10 +5,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:5000/api/",
-        // baseUrl: "https://mech-arcade-backend.vercel.app/api/",
+        baseUrl: "https://mech-arcade-backend.vercel.app/api",
     }),
-    // baseQuery: fetchBaseQuery({ baseUrl: "config.base_url" }),
     tagTypes: ["products"],
     endpoints: (builder) => ({
         getProducts: builder.query({
@@ -16,7 +14,7 @@ export const baseApi = createApi({
                 const queryString = params
                     ? new URLSearchParams(params).toString()
                     : "";
-                
+
                 // const url = queryString
                 //     ? `/product?${queryString}`
                 //     : "/product";

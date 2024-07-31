@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@font-face {
+    font-family: "Nunito";
+    src: url('./assets/fonts/Nunito-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;
@@ -65,5 +73,6 @@
     }
     body {
         @apply bg-background text-foreground;
+        font-family: "Nunito", sans-serif;
     }
 }

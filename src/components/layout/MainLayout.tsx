@@ -8,7 +8,7 @@ const MainLayout = () => {
     useCartWarning(); // global cart warning
 
     return (
-        <main>
+        <main className="font-Nunito">
             <div data-theme="light">
                 <Container className="min-h-screen">
                     <NavBar />

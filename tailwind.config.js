@@ -18,6 +18,9 @@ export const theme = {
     },
   },
   extend: {
+    fontFamily: {
+      Nunito: ["Nunito"]
+    },
     colors: {
       border: "hsl(var(--border))",
       input: "hsl(var(--input))",
