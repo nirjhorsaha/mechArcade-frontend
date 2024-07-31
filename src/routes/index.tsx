@@ -12,7 +12,7 @@ import SuccessPage from "@/pages/SuccessPage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([{
-    path: "/",
+  path: "/",
   element: <MainLayout />,
   children: [
     {
@@ -21,7 +21,7 @@ const router = createBrowserRouter([{
     },
     {
       path: "/products",
-      element: <Products/>
+      element: <Products />
     },
     {
       path: "/product/:id",
@@ -29,27 +29,27 @@ const router = createBrowserRouter([{
     },
     {
       path: "/about",
-      element: <AboutUs/>
+      element: <AboutUs />
     },
     {
       path: "/contact",
-      element: <ContactUs/>
+      element: <ContactUs />
     },
     {
       path: "/dashboard",
-      element: <Dashboard/>
+      element: <Dashboard />
     },
     {
       path: "/cart",
-      element: <Cart/>
+      element: <Cart />
     },
     {
       path: "/checkout",
-      element: <Checkout/>
+      element: <Checkout />
     },
     {
       path: '/success',
-      element: <SuccessPage/>
+      element: <SuccessPage />
     },
     {
       path: "*",
