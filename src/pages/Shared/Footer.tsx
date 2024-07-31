@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 const Footer = () => {
@@ -9,25 +10,24 @@ const Footer = () => {
       <nav className="mb-6 lg:mb-0">
         <h6 className="footer-title text-2xl font-bold mb-4 text-blue-600 tracking-wider">Services</h6>
         <ul className="space-y-2 text-base">
-          <li><a href="/products" className=" text-black hover:text-blue-600 transition duration-300 ">Product</a></li>
-          <li><a href="/dashboard" className=" text-black hover:text-blue-600 transition duration-300">Dashboard</a></li>
+          <li><Link to="/products" className=" text-black hover:text-blue-600 transition duration-300 ">Product</Link></li>
+          <li><Link to="/dashboard" className=" text-black hover:text-blue-600 transition duration-300">Dashboard</Link></li>
 
         </ul>
       </nav>
       <nav className="mb-6 lg:mb-0">
         <h6 className="footer-title text-2xl font-bold mb-4 text-blue-600 tracking-wider">Company</h6>
         <ul className="space-y-2 text-base">
-          <li><a href="/about" className=" text-black hover:text-blue-600 transition duration-300">About us</a></li>
-          <li><a href="/contact" className=" text-black hover:text-blue-600 transition duration-300">Contact</a></li>
-
+          <li><Link to="/about" className=" text-black hover:text-blue-600 transition duration-300">About us</Link></li>
+          <li><Link to="/contact" className=" text-black hover:text-blue-600 transition duration-300">Contact</Link></li>
         </ul>
       </nav>
 
       <nav className="mb-6 lg:mb-0">
         <h6 className="footer-title text-2xl font-bold mb-4 text-blue-600 tracking-wider">Legal</h6>
         <ul className="space-y-2 text-base">
-          <li><a href="/terms" className=" text-black hover:text-blue-600 transition duration-300">Terms of use</a></li>
-          <li><a href="/privacy" className=" text-black hover:text-blue-600 transition duration-300">Privacy policy</a></li>
+          <li><Link to="/terms" className=" text-black hover:text-blue-600 transition duration-300">Terms of use</Link></li>
+          <li><Link to="/privacy" className=" text-black hover:text-blue-600 transition duration-300">Privacy policy</Link></li>
         </ul>
       </nav>
       <nav>
