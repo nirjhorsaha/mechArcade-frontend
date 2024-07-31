@@ -68,31 +68,37 @@ The primary purpose of `MechArcade` is to provide mechanical keyboard enthusiast
 
 ### Products Page
 
--   Product listings with search and filter options.
+-  Product Listings: View all products with images, names, and prices.
+-  Search & Filters: Find products by name, brand and price range.
+-  Sorting Options: Sort products by price.
 
 ### Product Details Page
 
--   Detailed product information and add-to-cart option.
+-   Detailed Info: View product specs, images, and reviews.
+-   Add-to-Cart: Easily add items to the cart with stock updates..
 
 ### Cart Page
 
--   Cart items, quantity control, and total pricing.
+-   Cart Management: Adjust quantities or remove items.
+-   Pricing Overview: See subtotal, taxes, and total cost.
 
 ### Checkout Page
 
--   User details and payment options (Cash on Delivery, optional Stripe).
+-   User Details: Enter shipping info and choose payment methods.
+-   Payment Options: Includes Cash on Delivery and Stripe.
 
 ### Product Management/Dashboard
 
--   Product table with update/delete actions and add product form.
+-   Admin Panel: Manage products with add, update, and delete options.
+-   Product Table: View and edit all products in real-time..
 
 ### About Us Page
 
--   Creative design with animations.
+-   Brand Story: Learn about the mission and team with engaging design.
 
 ### Contact Us Page
 
--   Detailed contact information with animations.
+-   Contact Info: Find ways to reach out and an interactive form for inquiries.
 
 ### Others Features
 
