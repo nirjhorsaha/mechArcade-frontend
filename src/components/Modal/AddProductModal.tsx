@@ -32,7 +32,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
           <div>
             <input
               type="text"
-              {...register("name", { required: "Name is required" })}
+              {...register("name", { required: "Name is required", minLength: { value: 3, message: "Name must be at least 3 characters" } })}
               placeholder="Name"
               className="w-full px-4 py-2 border rounded-md"
             />
@@ -41,7 +41,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
           <div>
             <input
               type="text"
-              {...register("brand", { required: "Brand is required" })}
+              {...register("brand", {
+                required: "Brand is required",
+                minLength: { value: 3, message: "Brand must be at least 3 characters" }
+              })}
               placeholder="Brand"
               className="w-full px-4 py-2 border rounded-md"
             />
@@ -50,7 +53,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
           <div>
             <input
               type="number"
-              {...register("price", { required: "Price is required", valueAsNumber: true })}
+              {...register("price", {
+                required: "Price is required",
+                valueAsNumber: true, min: { value: 0.01, message: "Price must be greater than 0" }
+              })}
               placeholder="Price"
               className="w-full px-4 py-2 border rounded-md"
             />
@@ -58,7 +64,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
           </div>
           <div>
             <textarea
-              {...register("description", { required: "Description is required" })}
+              {...register("description", {
+                required: "Description is required",
+                minLength: { value: 10, message: "Description must be at least 10 characters" }
+              })}
               placeholder="Description"
               className="w-full px-4 py-2 border rounded-md"
               rows={3}
@@ -68,7 +77,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
           <div>
             <input
               type="number"
-              {...register("quantity", { required: "Quantity is required", valueAsNumber: true })}
+              {...register("quantity", {
+                required: "Quantity is required",
+                valueAsNumber: true, min: { value: 1, message: "Quantity must be at least 1" }
+              })}
               placeholder="Quantity"
               className="w-full px-4 py-2 border rounded-md"
             />
@@ -77,7 +89,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ onClose, onAdd }) => 
           <div>
             <input
               type="number"
-              {...register("rating", { required: "Rating is required", valueAsNumber: true, min: 0, max: 5 })}
+              {...register("rating", {
+                required: "Rating is required", valueAsNumber: true,
+                min: { value: 0, message: "Rating must be at least 0" },
+                max: { value: 5, message: "Rating must be at most 5" }
+              })}
               placeholder="Rating"
               className="w-full px-4 py-2 border rounded-md"
               step="0.1"
