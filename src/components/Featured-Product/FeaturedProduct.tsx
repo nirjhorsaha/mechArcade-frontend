@@ -19,11 +19,14 @@ const FeaturedProduct = () => {
   }
 
   if (error) {
-    return <div>Error fetching products</div>;
+    return (
+        <div className="text-center">
+          <p className="text-lg font-medium text-red-600">Failed to fetch data. Please try again later.</p>
+        </div>
+    );
   }
 
   const products = data?.data?.result;
-  // console.log(products);
 
   if (!products || products?.length === 0) {
     return <div>No products available</div>;
@@ -33,7 +36,7 @@ const FeaturedProduct = () => {
     <div className="bg-white py-12 max-w-7xl mx-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-left mb-6">
-          <h2 className="text-4xl font-semibold text-blue-600 mb-1">Featured Product</h2>
+          <h2 className="text-4xl font-semibold text-blue-600 mb-1 tracking-wide">Featured Product</h2>
           <h3 className="text-lg font-medium text-gray-600">Explore our top picks and bestsellers!</h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
