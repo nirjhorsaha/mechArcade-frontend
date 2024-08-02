@@ -1,8 +1,8 @@
 import useCartWarning from "@/hooks/useCartWarning";
-import Container from "@/pages/Shared/Container/Container";
 import Footer from "@/pages/Shared/Footer";
 import NavBar from "@/pages/Shared/Navbar";
 import { Outlet } from "react-router-dom";
+import Container from "./Container";
 
 const MainLayout = () => {
     useCartWarning(); // global cart warning
