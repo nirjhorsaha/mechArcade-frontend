@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `block px-4 py-2 ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
+        `block px-4 py-2 text-base ${isActive ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-gray-900'}`
       }
     >
       {children}
@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 mb-5">
+    <div className="navbar bg-base-100  mb-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" aria-label="Toggle navigation" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
         </div>
         <div className="logo-container">
           <NavLink to="/" className="logo-link flex items-center space-x-2">
-            <img src={logo} alt="Logo" className="h-10 lg:h-16 p-1 lg:ml-2" />
+            <img src={logo} alt="Logo" className="h-12 lg:h-20 p-1" />
           </NavLink>
         </div>
       </div>
@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle" aria-label="View cart" aria-haspopup="true" aria-expanded="false">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle mr-2 md:mr-4" aria-label="View cart" aria-haspopup="true" aria-expanded="false">
             <div className="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@ const Navbar: React.FC = () => {
           </div>
           <div
             tabIndex={0}
-            className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
+            className="card card-compact dropdown-content bg-base-100 z-[2] mt-3 w-52 shadow"
             aria-label="Cart dropdown"
           >
             <div className="card-body">
@@ -109,7 +109,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end z-[2]">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" aria-label="User menu" aria-haspopup="true" aria-expanded="false">
             <div className="w-10 rounded-full">
               <img
@@ -126,7 +126,7 @@ const Navbar: React.FC = () => {
             <li>
               <a className="justify-between">
                 Profile
-                <span className="badge">New</span>
+                <span className="badge"></span>
               </a>
             </li>
             <li><a>Settings</a></li>
