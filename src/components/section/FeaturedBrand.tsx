@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 import { TbBrandFeedly } from "react-icons/tb";
-
 import corsairLogo from '../../assets/brand-logo/Brand_Corsair_logo.png';
 import razerLogo from '../../assets/brand-logo/Brand_Razer_logo.png';
 import steelseriesLogo from '../../assets/brand-logo/Brand_Steelsseries-logo.png';
@@ -16,6 +15,7 @@ interface Brand {
   logo: string;
 }
 
+// Sample data for featured brands
 const featuredBrandsData: Brand[] = [
   { id: 1, title: "Corsair", logo: corsairLogo },
   { id: 2, title: "Razer", logo: razerLogo },

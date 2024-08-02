@@ -19,7 +19,9 @@ const CustomizableOptions: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 ml-4">Key Switches</h3>
             </div>
-            <p className="text-gray-600 mb-4">Choose from a variety of mechanical key switches such as Cherry MX, Gateron, and more, each offering unique tactile feedback and actuation force.</p>
+            <p className="text-gray-600 mb-4">
+              Choose from a variety of mechanical key switches such as Cherry MX, Gateron, and more, each offering unique tactile feedback and actuation force.
+            </p>
             <p className="text-sm text-gray-500">Opt for switches that match your typing style and preferences.</p>
           </div>
           <div className=" border border-gray-200 rounded-lg p-6 hover:shadow-md" data-aos="fade-up" data-aos-delay="200">
@@ -29,7 +31,9 @@ const CustomizableOptions: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 ml-4">Backlighting</h3>
             </div>
-            <p className="text-gray-600 mb-4">Add personality to your keyboard with customizable backlighting options, including RGB LED lighting with adjustable colors and effects.</p>
+            <p className="text-gray-600 mb-4">
+              Add personality to your keyboard with customizable backlighting options, including RGB LED lighting with adjustable colors and effects.
+            </p>
             <p className="text-sm text-gray-500">Create a personalized gaming or work environment with vibrant backlight settings.</p>
           </div>
           <div className=" border border-gray-200 rounded-lg p-6 hover:shadow-md" data-aos="fade-up" data-aos-delay="300">
@@ -39,7 +43,9 @@ const CustomizableOptions: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 ml-4">Keycaps</h3>
             </div>
-            <p className="text-gray-600 mb-4">Customize the look and feel of your keyboard with different keycap materials, profiles, and designs, including double-shot PBT, ABS, and more.</p>
+            <p className="text-gray-600 mb-4">
+              Customize the look and feel of your keyboard with different keycap materials, profiles, and designs, including double-shot PBT, ABS, and more.
+            </p>
             <p className="text-sm text-gray-500">Enhance durability and aesthetics with quality keycap options.</p>
           </div>
           <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md" data-aos="fade-up" data-aos-delay="400">
@@ -49,7 +55,9 @@ const CustomizableOptions: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold text-gray-800 ml-4">Layouts</h3>
             </div>
-            <p className="text-gray-600 mb-4">Choose from different keyboard layouts such as tenkeyless (TKL), full-size, and compact designs to suit your workspace and typing preferences.</p>
+            <p className="text-gray-600 mb-4">
+              Choose from different keyboard layouts such as tenkeyless (TKL), full-size, and compact designs to suit your workspace and typing preferences.
+            </p>
             <p className="text-sm text-gray-500">Optimize productivity and comfort with ergonomic keyboard layouts.</p>
           </div>
         </div>

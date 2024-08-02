@@ -13,6 +13,7 @@ const WhyChooseMechanicalKeyboards: React.FC = () => {
     AOS.init();
   }, []);
 
+  // Toggle the collapse of a section based on index
   const toggleCollapse = (index: number) => {
     if (openIndex === index) {
       setOpenIndex(null);

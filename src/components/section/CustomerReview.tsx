@@ -6,7 +6,6 @@ import reviewsData from '../../data/reviews.json';
 import { GoCodeReview } from "react-icons/go";
 import Section from '@/pages/Shared/Section';
 
-
 const CustomerReview: React.FC = () => {
   useEffect(() => {
     AOS.init();
@@ -22,15 +21,15 @@ const CustomerReview: React.FC = () => {
         />
         <Carousel autoplay>
           {reviewsData.map((review) => (
-            <div key={review.id} className="bg-gray-100 p-8 rounded-lg">
+            <div key={review?.id} className="bg-gray-100 p-8 rounded-lg">
               <div className="flex items-center mb-4 ">
-                <img src={review.image} alt={review.name} className="w-12 h-12 rounded-full mr-4" />
+                <img src={review.image} alt={review?.name} className="w-12 h-12 rounded-full mr-4" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">{review.name}</h3>
-                  <Rate allowHalf defaultValue={review.rating} />
+                  <h3 className="text-lg font-semibold text-gray-800">{review?.name}</h3>
+                  <Rate allowHalf defaultValue={review?.rating} />
                 </div>
               </div>
-              <p className="text-gray-600">{review.text}</p>
+              <p className="text-gray-600">{review?.text}</p>
             </div>
           ))}
         </Carousel>

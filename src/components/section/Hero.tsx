@@ -10,7 +10,7 @@ import mKeyboard2 from '../../assets/carousel/keyboard-2.jpg';
 import mKeyboard3 from '../../assets/carousel/keyboard-3.jpg';
 import mKeyboard4 from '../../assets/carousel/keyboard-4.jpg';
 
-const images = [mKeyboard1, mKeyboard2, mKeyboard3, mKeyboard4];
+const images = [mKeyboard1, mKeyboard2, mKeyboard3, mKeyboard4]; // Array of images for the carousel
 
 const Hero = () => {
   return (
