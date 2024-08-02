@@ -1,20 +1,20 @@
 import MainLayout from "@/components/layout/MainLayout";
-import AboutUs from "@/pages/About-Us/AboutUs";
-import Cart from "@/pages/Cart/Cart";
-import Checkout from "@/pages/Checkout/Checkout";
-import ContactUs from "@/pages/Contact-Us/ContactUs";
-import Dashboard from "@/pages/Dashboard/Dashboard";
-import Home from "@/pages/Home/Home";
-import ProductDetails from "@/pages/Product-Details/ProductDetails";
-import Products from "@/pages/Products/Products";
-import Notfound from "@/pages/Shared/Notfound";
+import AboutUs from "@/pages/AboutUs";
+import Cart from "@/pages/Cart";
+import Checkout from "@/pages/Checkout";
+import ContactUs from "@/pages/ContactUs";
+import Dashboard from "@/pages/Dashboard";
+import Home from "@/pages/Home";
+import ProductDetails from "@/pages/ProductDetails";
+import Products from "@/pages/Products";
+import ErrorPage from "@/pages/Shared/ErrorPage";
 import SuccessPage from "@/pages/SuccessPage";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([{
   path: "/",
   element: <MainLayout />,
-  errorElement: <Notfound />,
+  errorElement: <ErrorPage />,
   children: [
     {
       index: true,
@@ -52,10 +52,6 @@ const router = createBrowserRouter([{
       path: '/success',
       element: <SuccessPage />
     },
-    // {
-    //   path: "*",
-    //   element: <Notfound />,
-    // },
   ],
 }]);
 
