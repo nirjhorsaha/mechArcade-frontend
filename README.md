@@ -89,7 +89,7 @@ The primary purpose of `MechArcade` is to provide mechanical keyboard enthusiast
 
 ### Product Management/Dashboard
 
--   Admin Panel: Manage products with add, update, and delete options.
+-   Manage Product: Manage products with add, update, and delete options.
 -   Product Table: View and edit all products in real-time..
 
 ### About Us Page
