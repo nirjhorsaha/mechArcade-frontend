@@ -1,10 +1,12 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
+
   const cartItems = useSelector((state: RootState) => state.cart.items);
   
   // Calculate the total item count
@@ -24,6 +26,15 @@ const Navbar: React.FC = () => {
       {children}
     </NavLink>
   );
+
+  const handleLogout = () => {
+    // Clear any authentication tokens or user data here
+    // localStorage.removeItem('authToken');
+    
+    // Navigate to the login page
+    navigate('/login');
+  };
+
 
   return (
     <div className="navbar bg-base-100  mb-5">
@@ -130,7 +141,7 @@ const Navbar: React.FC = () => {
               </a>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><button onClick={handleLogout}>Logout</button></li>
           </ul>
         </div>
       </div>

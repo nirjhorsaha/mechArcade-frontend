@@ -8,6 +8,8 @@ import Home from "@/pages/Home";
 import ProductDetails from "@/pages/ProductDetails";
 import Products from "@/pages/Products";
 import ErrorPage from "@/pages/Shared/ErrorPage";
+import Login from "@/pages/Shared/Login";
+import Signup from "@/pages/Shared/SignUp";
 import SuccessPage from "@/pages/SuccessPage";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -52,6 +54,14 @@ const router = createBrowserRouter([{
       path: '/success',
       element: <SuccessPage />
     },
+    {
+      path: "/signup",
+      element: <Signup />
+    },
+    {
+      path: "/login",
+      element: <Login />
+    }
   ],
 }]);
 
