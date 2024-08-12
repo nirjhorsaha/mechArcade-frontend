@@ -1,88 +1,146 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { FaFacebookF, FaInstagram, FaTwitter, FaGithub, FaDribbble, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
-const Footer = () => {
-  const navSections = [
-    {
-      title: 'Services',
-      links: [
-        { to: '/products', text: 'Product' },
-        { to: '/dashboard', text: 'Dashboard' },
-      ],
-    },
-    {
-      title: 'Company',
-      links: [
-        { to: '/about', text: 'About us' },
-        { to: '/contact', text: 'Contact' },
-      ],
-    },
-    {
-      title: 'Legal',
-      links: [
-        { to: '/', text: 'Terms of use' },
-        { to: '/', text: 'Privacy policy' },
-      ],
-    },
-  ];
+const socialLinks = [
+  { href: "#", icon: <FaFacebookF className='size-5' />, label: "Facebook" },
+  { href: "#", icon: <FaInstagram className='size-5' />, label: "Instagram" },
+  { href: "#", icon: <FaTwitter className='size-5' />, label: "Twitter" },
+  { href: "#", icon: <FaGithub className='size-5' />, label: "GitHub" },
+  { href: "#", icon: <FaDribbble className='size-5' />, label: "Dribbble" }
+];
 
-  return (
-    <footer className="footer bg-base-200 text-base-content p-16 rounded-lg">
-      <aside className='mx-auto lg:mx-0 lg:my-auto'>
-        <img src={logo} alt="Logo" className="h-24 lg:h-32" />
-      </aside>
-      {navSections.map(({ title, links }) => (
-        <nav key={title} className="mb-6 lg:mb-0">
-          <h6 className="footer-title text-2xl font-bold mb-4 text-blue-600 tracking-wider">{title}</h6>
-          <ul className="space-y-2 text-base">
-            {links.map(({ to, text }) => (
-              <li key={to}>
-                <Link to={to} className="text-black hover:text-blue-600 transition duration-300">{text}</Link>
+const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
+  <Link to={to} className="text-black transition hover:text-blue-600">
+    {children}
+  </Link>
+);
+
+const FooterSection = ({ title, links }: { title: string; links: { to: string; text: string }[] }) => (
+  <div className="text-center sm:text-left">
+    <p className="text-xl font-medium text-blue-600">{title}</p>
+    <nav className="mt-8">
+      <ul className="space-y-4 text-sm">
+        {links.map(({ to, text }, index) => (
+          <li key={index}>
+            <FooterLink to={to}>{text}</FooterLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+);
+
+
+const Footer = () => (
+  <footer className="bg-gray-200">
+    <div className="max-w-screen-xl px-4 pt-16 pb-6 mx-auto">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div>
+          <div className="flex justify-center text-teal-300 sm:justify-start">
+            <img src={logo} alt="Logo" className="h-24 lg:h-32" />
+          </div>
+          <p className="max-w-md mx-auto mt-6 leading-relaxed text-center text-black sm:max-w-xs sm:mx-0 sm:text-left">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa cum itaque neque.
+          </p>
+          <ul className="flex justify-center gap-6 mt-8 md:gap-8 sm:justify-start">
+            {socialLinks.map(({ href, icon, label }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-primary transition-colors duration-200"
+                >
+                  <span className="sr-only">{label}</span>
+                  {icon}
+                </a>
               </li>
             ))}
           </ul>
-        </nav>
-      ))}
-      <nav>
-        <h6 className="footer-title text-2xl font-bold mb-4 text-blue-600 tracking-wider">Social</h6>
-        <div className="grid grid-flow-col gap-4">
-          <a href="#" aria-label="Twitter">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              className="fill-current hover:text-blue-600 cursor-pointer">
-              <path
-                d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-            </svg>
-          </a>
-          <a href="#" aria-label="YouTube">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              className="fill-current hover:text-blue-600 cursor-pointer">
-              <path
-                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-            </svg>
-          </a>
-          <a href="#" aria-label="Facebook">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              className="fill-current hover:text-blue-600 cursor-pointer">
-              <path
-                d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-            </svg>
-          </a>
         </div>
-      </nav>
-    </footer>
-  );
-};
+
+
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-4">
+          <FooterSection
+            title="About Us"
+            links={[
+              { to: "/", text: "Company History" },
+              { to: "/", text: "Meet the Team" },
+            ]}
+          />
+          <FooterSection
+            title="Our Services"
+            links={[
+              { to: "/products", text: "Products" },
+              { to: "/dashboard", text: "Dashboard" },
+
+            ]}
+          />
+          <FooterSection
+            title="Helpful Links"
+            links={[
+              { to: "/", text: "FAQs" },
+              { to: "/", text: "Support" },
+            ]}
+          />
+          <div className="text-center sm:text-left">
+            <p className="text-xl font-medium text-blue-600">Contact Us</p>
+            <ul className="mt-8 space-y-4 text-sm">
+              <li>
+                <a
+                  className="flex items-center justify-center sm:justify-start gap-1.5 group"
+                  href="mailto:john@doe.com"
+                >
+                  <FaEnvelope className="size-4 text-black" />
+                  <span className="text-black transition group-hover:text-blue-600">john@doe.com</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  className="flex items-center justify-center sm:justify-start gap-1.5 group"
+                  href="tel:0123456789"
+                >
+                  <FaPhone className="size-4 text-black" />
+                  <span className="text-black transition group-hover:text-blue-600">0123456789</span>
+                </a>
+              </li>
+              <li className="flex items-start justify-center gap-1.5 sm:justify-start">
+                <FaMapMarkerAlt className="size-4 text-black" />
+                <address className="-mt-0.5 not-italic text-black">
+                  213 Lane, London, United Kingdom
+                </address>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-6 mt-12 border-t border-gray-800">
+        <div className="text-center sm:flex sm:justify-between sm:text-left">
+          <p className="text-sm text-gray-400">
+            <span className="block sm:inline">All rights reserved.</span>
+            <a
+              className="inline-block text-blue-600 underline transition hover:text-teal-500/75"
+              href="/"
+            >
+              Terms & Conditions
+            </a>
+            <span>&middot;</span>
+            <a
+              className="inline-block text-blue-600 underline transition hover:text-teal-500/75"
+              href="/"
+            >
+              Privacy Policy
+            </a>
+          </p>
+          <p className="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
+            &copy; {new Date().getFullYear()} Mech Arcade
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;
