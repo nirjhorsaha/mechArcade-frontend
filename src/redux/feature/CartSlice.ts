@@ -1,16 +1,7 @@
+import { CartItem } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface CartItem {
-    _id: string;
-    name: string;
-    price: number;
-    brand: string;
-    stock: number;
-    quantity: number; 
-    cartQuantity: number; // New field
-}
-
-interface CartState {
+export interface CartState {
     items: CartItem[];
 }
 
@@ -43,7 +34,8 @@ const cartSlice = createSlice({
             const item = state.items.find(
                 (item) => item._id === action.payload,
             );
-            if (item && item?.quantity < item?.stock) {  // ensure stock limit
+            if (item && item?.quantity < item?.stock) {
+                // ensure stock limit
                 item.quantity += 1;
             }
         },
@@ -55,12 +47,17 @@ const cartSlice = createSlice({
                 item.quantity -= 1;
             }
         },
-        updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
-            const item = state.items.find((item) => item._id === action.payload.id);
+        updateQuantity: (
+            state,
+            action: PayloadAction<{ id: string; quantity: number }>,
+        ) => {
+            const item = state.items.find(
+                (item) => item._id === action.payload.id,
+            );
             if (item) {
-              item.cartQuantity = action.payload.quantity;
+                item.cartQuantity = action.payload.quantity;
             }
-          },
+        },
     },
 });
 

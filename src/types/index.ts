@@ -10,3 +10,13 @@ export interface Product {
     isDeleted: boolean;
     inStock: boolean;
 }
+
+export interface CartItem {
+    _id: string;
+    name: string;
+    price: number;
+    brand: string;
+    stock: number;
+    quantity: number; 
+    cartQuantity: number; // New field
+}
